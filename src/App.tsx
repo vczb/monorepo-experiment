@@ -1,6 +1,7 @@
-import { Button, createTheme, ThemeProvider } from "@mui/material";
+import { createTheme, ThemeProvider } from "@mui/material";
 
 import { orange } from "@mui/material/colors";
+import AppRoutes from "routes";
 import { colors } from "theme/colors";
 
 const theme = createTheme({
@@ -18,7 +19,7 @@ const theme = createTheme({
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <Button variant="contained">Hello</Button>
+      <AppRoutes />
     </ThemeProvider>
   );
 }
