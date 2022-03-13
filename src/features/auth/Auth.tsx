@@ -12,14 +12,35 @@ import {
 
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
-export default function Login() {
+import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "store/hooks";
+import { login } from "./authSlice";
+
+export default function Auth() {
+  const navigate = useNavigate();
+
+  const dispatch = useAppDispatch();
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     const data = new FormData(e.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+
+    const identifier = data?.get("email")?.toString() || "";
+    const password = data?.get("email")?.toString() || "";
+
+    if (!identifier.length || !password.length) {
+      return;
+    }
+
+    dispatch(
+      login({
+        identifier,
+        password,
+      })
+    );
+
+    navigate("/");
   };
   return (
     <Container component="main" maxWidth="xs">
@@ -38,7 +59,7 @@ export default function Login() {
           }}
         >
           <Typography component="h1" variant="h2" color={"primary.dark"}>
-            LOGIN
+            Auth
           </Typography>
           <Avatar sx={{ m: 1, bgcolor: "primary.dark" }}>
             <LockOutlinedIcon />
