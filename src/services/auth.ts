@@ -1,20 +1,43 @@
-import { authState } from "features/auth/authSlice";
+import { UserState } from "features/user/userSlice";
 
-const url = "http://localhost:1337/api/auth/local";
-const token =
-  "1dbbae4c3bbefecc1bfc937cb030c6536c295e27c1bbaeb19a65592b08bb7180a7e9eb860d09950bc7f10caf0fdc7b9d6c9fd1cec6b632a6521d8f1f8adc554936f8b6d1991600aa48d399716eca3cea8fd4504dece7f1ec9f4e1c89566b015eaa773973a578a20ffc6c5fb7343fb0d4a202f1af8a8d6a4cac3192648e03c642";
+type Error = {
+  status: number;
+  name: string;
+  message: string;
+  details: unknown;
+};
 
-async function login({ identifier, password }: authState) {
-  const response = await fetch(url, {
+export type FechResponse = {
+  error: Error;
+  [key: string]: unknown;
+};
+
+type LoginResponse = {
+  jwt: string;
+  user?: UserState;
+};
+
+export type LoginRequest = {
+  identifier: string;
+  password: string;
+};
+
+async function login({
+  identifier,
+  password,
+}: LoginRequest): Promise<FechResponse & LoginResponse> {
+  const url = process.env.REACT_APP_BASE_API_URL + "auth/local";
+
+  return await fetch(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({ identifier, password }),
-  });
-  const data = await response.json();
-  return data;
+  })
+    .then((res) => res.json())
+    .then((res) => res)
+    .catch((err) => err);
 }
 
 async function logout() {

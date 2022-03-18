@@ -8,18 +8,20 @@ import {
   TextField,
   FormControlLabel,
   Checkbox,
+  Paper,
 } from "@mui/material";
 
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch } from "store/hooks";
-import { login } from "./authSlice";
+import { useAuth } from "./authSlice";
 
 export default function Auth() {
   const navigate = useNavigate();
 
-  const dispatch = useAppDispatch();
+  const { auth, onLogin } = useAuth();
+
+  const { requestStatus, errorMessage } = auth;
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -27,26 +29,26 @@ export default function Auth() {
     const data = new FormData(e.currentTarget);
 
     const identifier = data?.get("email")?.toString() || "";
-    const password = data?.get("email")?.toString() || "";
+    const password = data?.get("password")?.toString() || "";
 
     if (!identifier.length || !password.length) {
       return;
     }
 
-    dispatch(
-      login({
-        identifier,
-        password,
-      })
-    );
-
-    navigate("/");
+    onLogin({ identifier, password });
   };
+
+  if (requestStatus === "fulfilled" && auth?.jwt?.length) {
+    navigate("/");
+  }
+
   return (
     <Container component="main" maxWidth="xs">
-      <Box
+      <Paper
+        elevation={3}
         sx={{
-          marginTop: 16,
+          marginTop: 20,
+          padding: "1rem 2rem",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -59,7 +61,7 @@ export default function Auth() {
           }}
         >
           <Typography component="h1" variant="h2" color={"primary.dark"}>
-            Auth
+            PONTUEI
           </Typography>
           <Avatar sx={{ m: 1, bgcolor: "primary.dark" }}>
             <LockOutlinedIcon />
@@ -80,6 +82,8 @@ export default function Auth() {
             name="email"
             autoComplete="email"
             autoFocus
+            error={requestStatus === "rejected"}
+            helperText={errorMessage}
           />
           <TextField
             margin="normal"
@@ -90,6 +94,8 @@ export default function Auth() {
             type="password"
             id="password"
             autoComplete="current-password"
+            error={requestStatus === "rejected"}
+            helperText={errorMessage}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
@@ -100,11 +106,12 @@ export default function Auth() {
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
+            disabled={requestStatus === "pending"}
           >
             Sign In
           </Button>
         </FormControl>
-      </Box>
+      </Paper>
     </Container>
   );
 }

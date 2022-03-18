@@ -1,49 +1,77 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { setUser } from "features/user/userSlice";
 
-// import { setMessage } from "features/message/messageSlice";
+import authService, { LoginRequest } from "services/auth";
+import { isRejectedAction, useAppDispatch, useAppSelector } from "store/hooks";
 
-import AuthService from "services/auth";
+export type AuthState = {
+  requestStatus?: "idle" | "pending" | "fulfilled" | "rejected";
+  errorMessage?: string;
+  jwt?: string;
+} & LoginRequest;
 
-import { RootState } from "store";
-
-export interface authState {
-  identifier: string;
-  password: string;
-}
-
-const initialState: authState = {
+const initialState: AuthState = {
   identifier: "",
   password: "",
+  jwt: "",
+  requestStatus: "idle",
+  errorMessage: "",
 };
 
-export const login = createAsyncThunk(
-  "auth/local",
-  async ({ identifier, password }: authState, thunkAPI) => {
-    try {
-      const data = await AuthService.login({ identifier, password });
-      return { user: data };
-    } catch (error: any) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
+const login = createAsyncThunk(
+  "auth/login",
+  async ({ identifier, password }: AuthState, thunkAPI) => {
+    const data = await authService.login({ identifier, password });
 
-      return thunkAPI.rejectWithValue(message);
+    if (data?.error) {
+      return thunkAPI.rejectWithValue({
+        error: data.error.message,
+      });
     }
+
+    thunkAPI.dispatch(setUser(data.user));
+
+    return data;
   }
 );
 
-export const logout = createAsyncThunk("auth/logout", async () => {
-  await AuthService.logout();
+const logout = createAsyncThunk("auth/logout", async () => {
+  await authService.logout();
 });
 
 const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(login.pending, (state: AuthState) => {
+      state.requestStatus = "pending";
+    });
+    builder.addCase(login.fulfilled, (state: AuthState, action) => {
+      state.requestStatus = "fulfilled";
+      state.jwt = action.payload.jwt || "";
+    });
+    builder.addMatcher(isRejectedAction, (state, action) => {
+      const { error } = action.payload;
+      state.requestStatus = "rejected";
+      state.errorMessage = error || "Something went wrong";
+    });
+  },
 });
+
+export function useAuth() {
+  const dispatch = useAppDispatch();
+  const auth = useAppSelector((state) => state.auth);
+
+  const onLogin = (data: AuthState) => dispatch(login(data));
+  const onLogout = () => dispatch(logout());
+
+  return {
+    auth,
+    onLogin,
+    onLogout,
+  };
+}
 
 const { reducer } = authSlice;
 export default reducer;
