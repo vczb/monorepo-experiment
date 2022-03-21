@@ -1,6 +1,8 @@
 import { createTheme, ThemeProvider } from "@mui/material";
 import { Provider } from "react-redux";
-import { store } from "store";
+import { PersistGate } from "redux-persist/integration/react";
+
+import { store, persistor } from "store";
 
 import AppRoutes from "routes";
 import { orange } from "@mui/material/colors";
@@ -21,9 +23,11 @@ const theme = createTheme({
 function App() {
   return (
     <Provider store={store}>
-      <ThemeProvider theme={theme}>
-        <AppRoutes />
-      </ThemeProvider>
+      <PersistGate loading={null} persistor={persistor}>
+        <ThemeProvider theme={theme}>
+          <AppRoutes />
+        </ThemeProvider>
+      </PersistGate>
     </Provider>
   );
 }
