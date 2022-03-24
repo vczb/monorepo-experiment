@@ -34,11 +34,16 @@ const userSlice = createSlice({
       state.blocked = action.payload.blocked;
       state.createdAt = action.payload.createdAt;
       state.updatedAt = action.payload.updatedAt;
+      return state;
+    },
+    resetUser: (state) => {
+      state = initialState;
+      return state;
     },
   },
 });
 
-export const { setUser } = userSlice.actions;
+export const { setUser, resetUser } = userSlice.actions;
 
 const { reducer } = userSlice;
 export default reducer;

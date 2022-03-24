@@ -1,11 +1,10 @@
 import { Button } from "@mui/material";
+import { useAuth } from "features/auth/authSlice";
 // import { useEffect } from "react";
 // import { useSelector, RootStateOrAny } from "react-redux";
 
-import { useNavigate } from "react-router-dom";
-
 export default function Dashboard() {
-  const navigate = useNavigate();
+  const { onLogout } = useAuth();
 
   // const user = useSelector((state: RootStateOrAny) => state.user.data);
 
@@ -21,7 +20,7 @@ export default function Dashboard() {
 
   return (
     <div>
-      <Button variant="contained" onClick={() => navigate("/auth")}>
+      <Button variant="contained" onClick={() => onLogout()}>
         Hello
       </Button>
     </div>

@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { setUser } from "features/user/userSlice";
+import { resetUser, setUser } from "features/user/userSlice";
 
 import authService, { LoginRequest } from "services/auth";
 import { isRejectedAction, useAppDispatch, useAppSelector } from "store/hooks";
@@ -35,14 +35,20 @@ const login = createAsyncThunk(
   }
 );
 
-const logout = createAsyncThunk("auth/logout", async () => {
-  await authService.logout();
+const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
+  await thunkAPI.dispatch(resetUser());
+  await thunkAPI.dispatch(resetAuth());
 });
 
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    resetAuth: (state) => {
+      state = initialState;
+      return state;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(login.pending, (state: AuthState) => {
       state.requestStatus = "pending";
@@ -58,6 +64,8 @@ const authSlice = createSlice({
     });
   },
 });
+
+export const { resetAuth } = authSlice.actions;
 
 export function useAuth() {
   const dispatch = useAppDispatch();

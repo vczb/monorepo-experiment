@@ -40,13 +40,8 @@ async function login({
     .catch((err) => err);
 }
 
-async function logout() {
-  return;
-}
-
 const authService = {
   login,
-  logout,
 };
 
 export default authService;
