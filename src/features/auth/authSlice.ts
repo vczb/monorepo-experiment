@@ -65,7 +65,7 @@ const authSlice = createSlice({
   },
 });
 
-export const { resetAuth } = authSlice.actions;
+const { resetAuth } = authSlice.actions;
 
 export function useAuth() {
   const dispatch = useAppDispatch();

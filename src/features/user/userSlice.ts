@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { useAppSelector } from "store/hooks";
 
 export interface UserState {
   id: number;
@@ -44,6 +45,14 @@ const userSlice = createSlice({
 });
 
 export const { setUser, resetUser } = userSlice.actions;
+
+export function useUser() {
+  const user = useAppSelector((state) => state.user);
+
+  return {
+    user,
+  };
+}
 
 const { reducer } = userSlice;
 export default reducer;

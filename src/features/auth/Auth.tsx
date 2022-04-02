@@ -108,7 +108,7 @@ export default function Auth() {
             sx={{ mt: 3, mb: 2 }}
             disabled={requestStatus === "pending"}
           >
-            Sign In
+            ENTRAR
           </Button>
         </FormControl>
       </Paper>

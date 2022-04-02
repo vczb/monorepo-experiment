@@ -1,16 +1,5 @@
 import { UserState } from "features/user/userSlice";
-
-type Error = {
-  status: number;
-  name: string;
-  message: string;
-  details: unknown;
-};
-
-export type FechResponse = {
-  error: Error;
-  [key: string]: unknown;
-};
+import { FechResponse } from "./fetch";
 
 type LoginResponse = {
   jwt: string;

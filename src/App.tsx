@@ -1,21 +1,26 @@
 import { createTheme, ThemeProvider } from "@mui/material";
+
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 
 import { store, persistor } from "store";
-
 import AppRoutes from "routes";
-import { orange } from "@mui/material/colors";
-import { colors } from "theme/colors";
+
+import { primary } from "theme/colors";
+import { globalStyles } from "theme/global";
 
 const theme = createTheme({
   palette: {
     mode: "light",
-    primary: {
-      light: orange[300],
-      main: orange[700],
-      dark: orange[800],
-      contrastText: colors.white,
+    primary,
+  },
+  components: {
+    MuiGrid: {
+      styleOverrides: {
+        root: {
+          margin: 0,
+        },
+      },
     },
   },
 });
@@ -24,6 +29,7 @@ function App() {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
+        {globalStyles}
         <ThemeProvider theme={theme}>
           <AppRoutes />
         </ThemeProvider>
