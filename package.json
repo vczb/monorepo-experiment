@@ -17,6 +17,7 @@
     "@types/react-dom": "^17.0.9",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-input-mask": "^2.0.4",
     "react-redux": "^7.2.6",
     "react-router-dom": "6",
     "react-scripts": "5.0.0",
@@ -55,6 +56,9 @@
     ]
   },
   "devDependencies": {
+    "@types/react-input-mask": "^3.0.1",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0",
     "husky": "^7.0.4",
     "lint-staged": "^12.3.5",
     "prettier": "2.5.1"

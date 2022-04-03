@@ -1,23 +1,28 @@
+import { CustomerState } from "features/customer/customerSlice";
 import { FechResponse } from "./fetch";
 
-type FindUserRequest = {
+export type FindByCPFRequest = {
   cpf: string;
+  userId: number | string;
   token: string;
 };
 
-async function findCustomer({
+type FindByCPFResponse = Omit<CustomerState, "requestStatus" | "errorMessage">;
+
+async function findByCPF({
   cpf,
-  token,
-}: FindUserRequest): Promise<FechResponse & any> {
-  const url =
-    process.env.REACT_APP_BASE_API_URL + `customers?filters[cpf][$eq]=${cpf}`;
+  userId,
+  token = "",
+}: FindByCPFRequest): Promise<FechResponse & FindByCPFResponse> {
+  const url = process.env.REACT_APP_BASE_API_URL + `customer/onboarding`;
 
   return await fetch(url, {
-    method: "GET",
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
+    body: JSON.stringify({ cpf, user_id: userId }),
   })
     .then((res) => res.json())
     .then((res) => res)
@@ -25,7 +30,7 @@ async function findCustomer({
 }
 
 const customerService = {
-  findCustomer,
+  findByCPF,
 };
 
 export default customerService;

@@ -108,7 +108,7 @@ export default function Auth() {
             sx={{ mt: 3, mb: 2 }}
             disabled={requestStatus === "pending"}
           >
-            ENTRAR
+            {requestStatus === "pending" ? "Carregando..." : "ENTRAR"}
           </Button>
         </FormControl>
       </Paper>

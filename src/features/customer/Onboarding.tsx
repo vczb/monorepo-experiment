@@ -11,6 +11,8 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
+import { useCustomer } from "./customerSlice";
+import { useAuth } from "features/auth/authSlice";
 
 const bgImage = {
   backgroundImage: "url(/img/onboarding-bg.png)",
@@ -22,14 +24,26 @@ const bgImage = {
 
 export default function Onboarding() {
   const { user } = useUser();
+  const { auth } = useAuth();
+  const { customer, validateCPF } = useCustomer();
+  const { onFindByCPF } = useCustomer();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const data = new FormData(e.currentTarget);
 
-    console.log(data);
+    const cpf = data?.get("cpf")?.toString() || "";
+
+    const isValid = validateCPF(cpf);
+
+    if (!isValid) {
+      return;
+    }
+
+    onFindByCPF({ cpf, userId: user?.id, token: auth?.jwt || "" });
   };
+
   return (
     <Wrapper fullVH>
       <Grid
@@ -63,10 +77,22 @@ export default function Onboarding() {
               noValidate
               sx={{ width: "100%", mb: 5 }}
             >
-              <TextFieldCPF sx={{ mb: 3 }} fullWidth />
+              <TextFieldCPF
+                sx={{ mb: 3 }}
+                fullWidth
+                error={customer.requestStatus === "rejected"}
+                helperText={customer.errorMessage}
+              />
 
-              <Button type="submit" fullWidth variant="contained">
-                CONTINUAR
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                disabled={customer.requestStatus === "pending"}
+              >
+                {customer.requestStatus === "pending"
+                  ? "Carregando..."
+                  : "Continuar"}
               </Button>
             </FormControl>
 

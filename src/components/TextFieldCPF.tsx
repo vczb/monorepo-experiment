@@ -1,11 +1,24 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { TextField, TextFieldProps } from "@mui/material";
 
-/*
-  TODO: Add regex to validate CPF
-  ^\d{3}\.\d{3}\.\d{3}\-\d{2}$
-*/
+import InputMask from "react-input-mask";
+
 const TextFieldCPF = ({ ...props }: TextFieldProps) => {
-  return <TextField required placeholder="CPF" {...props} />;
+  return (
+    <InputMask mask="999.999.999-99">
+      {() => (
+        <TextField
+          id="cpf"
+          label="CPF"
+          name="cpf"
+          fullWidth
+          required
+          placeholder="CPF"
+          {...props}
+        />
+      )}
+    </InputMask>
+  );
 };
 
 export default TextFieldCPF;

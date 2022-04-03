@@ -5,6 +5,7 @@ It's an gamification program to loyalty points.
 ## What is inside?
 
 - [React](https://reactjs.org/)
+- [Redux + Toolkit](https://redux-toolkit.js.org/)
 - [React Router](https://reactrouter.com/docs/en/v6/getting-started/overview)
 - [TypeScript](https://www.typescriptlang.org/)
 - [Material-UI](https://material-ui.com/)
