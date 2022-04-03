@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 
 import {
@@ -12,19 +13,19 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
-import authReducer from "features/auth/authSlice";
-import userReducer from "features/user/userSlice";
 import customerReducer from "features/customer/customerSlice";
+import companyReducer from "features/company/companySlice";
+
+export const persistKey = process.env.REACT_APP_STORAGE_ROOT_KEY as string;
 
 const persistConfig = {
-  key: "root",
+  key: persistKey,
   version: 1,
   storage,
 };
 
 const reducers = combineReducers({
-  auth: authReducer,
-  user: userReducer,
+  company: companyReducer,
   customer: customerReducer,
 });
 

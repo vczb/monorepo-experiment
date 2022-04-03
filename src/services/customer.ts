@@ -3,7 +3,7 @@ import { FechResponse } from "./fetch";
 
 export type FindByCPFRequest = {
   cpf: string;
-  userId: number | string;
+  userId: string;
   token: string;
 };
 

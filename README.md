@@ -26,19 +26,26 @@ It's an gamification program to loyalty points.
   yarn install
 ```
 
-3. Run the application
+4. Add the environment variables
+
+```bash
+REACT_APP_BASE_API_URL=http://localhost:1337/api/
+REACT_APP_STORAGE_ROOT_KEY=pontuei
+```
+
+4. Run the application
 
 ```bash
   yarn start
 ```
 
-4. Open the browser and go to `http://localhost:3000`
+5. Open the browser and go to `http://localhost:3000`
 
 ## Available commands
 
 - `start`: run the application in development mode `localhost:3000`
-- `prettier:check`: check formatting on all `src` directory
-- `prettier:format`: formats all `src` directory
+- `check`: check formatting on all `src` directory
+- `format`: formats all `src` directory
 
 ## Contributing
 

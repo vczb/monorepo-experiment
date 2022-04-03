@@ -1,16 +1,16 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Auth from "features/auth/Auth";
-import { useAuth } from "features/auth/authSlice";
+import Auth from "features/company/Auth";
+import { useCompany } from "features/company/companySlice";
 import { Protected } from "routes/protected";
 import Onboarding from "features/customer/Onboarding";
 
 export default function AppRoutes() {
-  const { auth } = useAuth();
+  const { company } = useCompany();
   return (
     <BrowserRouter>
       <Routes>
-        <Route element={<Protected isAllowed={!!auth.jwt?.length} />}>
+        <Route element={<Protected isAllowed={!!company.jwt?.length} />}>
           <Route path="/" element={<Onboarding />} />
         </Route>
 

@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Box,
   Typography,
@@ -10,18 +12,16 @@ import {
   Checkbox,
   Paper,
 } from "@mui/material";
-
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "./authSlice";
+import { useCompany } from "./companySlice";
 
 export default function Auth() {
   const navigate = useNavigate();
 
-  const { auth, onLogin } = useAuth();
+  const { company, onLogin } = useCompany();
 
-  const { requestStatus, errorMessage } = auth;
+  const { requestStatus, errorMessage, jwt } = company;
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -38,9 +38,11 @@ export default function Auth() {
     onLogin({ identifier, password });
   };
 
-  if (requestStatus === "fulfilled" && auth?.jwt?.length) {
-    navigate("/");
-  }
+  useEffect(() => {
+    if (requestStatus === "fulfilled" && jwt?.length) {
+      navigate("/");
+    }
+  }, [requestStatus, jwt, navigate]);
 
   return (
     <Container component="main" maxWidth="xs">
@@ -108,7 +110,7 @@ export default function Auth() {
             sx={{ mt: 3, mb: 2 }}
             disabled={requestStatus === "pending"}
           >
-            {requestStatus === "pending" ? "Carregando..." : "ENTRAR"}
+            ENTRAR
           </Button>
         </FormControl>
       </Paper>

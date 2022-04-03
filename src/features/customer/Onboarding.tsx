@@ -1,7 +1,5 @@
 import * as React from "react";
 
-import { useUser } from "features/user/userSlice";
-
 import { TextFieldCPF, Wrapper } from "components";
 import {
   Button,
@@ -12,7 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useCustomer } from "./customerSlice";
-import { useAuth } from "features/auth/authSlice";
+import { useCompany } from "features/company/companySlice";
 
 const bgImage = {
   backgroundImage: "url(/img/onboarding-bg.png)",
@@ -23,8 +21,7 @@ const bgImage = {
 };
 
 export default function Onboarding() {
-  const { user } = useUser();
-  const { auth } = useAuth();
+  const { company } = useCompany();
   const { customer, validateCPF } = useCustomer();
   const { onFindByCPF } = useCustomer();
 
@@ -41,7 +38,7 @@ export default function Onboarding() {
       return;
     }
 
-    onFindByCPF({ cpf, userId: user?.id, token: auth?.jwt || "" });
+    onFindByCPF({ cpf, userId: company?.id, token: company?.jwt || "" });
   };
 
   return (
@@ -90,9 +87,7 @@ export default function Onboarding() {
                 variant="contained"
                 disabled={customer.requestStatus === "pending"}
               >
-                {customer.requestStatus === "pending"
-                  ? "Carregando..."
-                  : "Continuar"}
+                CONTINUAR
               </Button>
             </FormControl>
 
@@ -102,7 +97,7 @@ export default function Onboarding() {
               align={"center"}
               variant="body1"
             >
-              {user.username}
+              {company.name}
             </Typography>
           </Paper>
         </Grid>

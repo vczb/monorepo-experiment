@@ -1,9 +1,9 @@
-import { UserState } from "features/user/userSlice";
+import { CompanyState } from "features/company/companySlice";
 import { FechResponse } from "./fetch";
 
 type LoginResponse = {
   jwt: string;
-  user?: UserState;
+  user?: CompanyState;
 };
 
 export type LoginRequest = {
