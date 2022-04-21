@@ -1,6 +1,6 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 
-import { TextFieldCPF, Wrapper } from "components";
+import { MaskField, Wrapper } from "components";
 import {
   Button,
   Divider,
@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import { useCustomer } from "./customerSlice";
 import { useCompany } from "features/company/companySlice";
+import { useNavigate } from "react-router-dom";
 
 const bgImage = {
   backgroundImage: "url(/img/onboarding-bg.png)",
@@ -24,6 +25,9 @@ export default function Onboarding() {
   const { company } = useCompany();
   const { customer, validateCPF } = useCustomer();
   const { onFindByCPF } = useCustomer();
+  const navigate = useNavigate();
+
+  const { id, requestStatus } = customer;
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -38,8 +42,20 @@ export default function Onboarding() {
       return;
     }
 
-    onFindByCPF({ cpf, userId: company?.id, token: company?.jwt || "" });
+    onFindByCPF(cpf);
   };
+
+  useEffect(() => {
+    if (requestStatus !== "fulfilled") {
+      return;
+    }
+
+    if (id?.length) {
+      navigate("/welcome");
+    } else {
+      navigate("/new");
+    }
+  }, [id, requestStatus, navigate]);
 
   return (
     <Wrapper fullVH>
@@ -74,11 +90,15 @@ export default function Onboarding() {
               noValidate
               sx={{ width: "100%", mb: 5 }}
             >
-              <TextFieldCPF
+              <MaskField
                 sx={{ mb: 3 }}
                 fullWidth
                 error={customer.requestStatus === "rejected"}
                 helperText={customer.errorMessage}
+                label="CPF"
+                placeholder="CPF"
+                name="cpf"
+                required
               />
 
               <Button

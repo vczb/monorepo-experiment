@@ -2,16 +2,27 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Auth from "features/company/Auth";
 import { useCompany } from "features/company/companySlice";
+import { useCustomer } from "features/customer/customerSlice";
 import { Protected } from "routes/protected";
 import Onboarding from "features/customer/Onboarding";
+import Register from "features/customer/Register";
 
 export default function AppRoutes() {
   const { company } = useCompany();
+  const { customer } = useCustomer();
   return (
     <BrowserRouter>
       <Routes>
         <Route element={<Protected isAllowed={!!company.jwt?.length} />}>
           <Route path="/" element={<Onboarding />} />
+          <Route
+            element={
+              <Protected isAllowed={!!customer.cpf?.length} redirectTo={"/"} />
+            }
+          >
+            <Route path="/new" element={<Register />} />
+            <Route path="/welcome" element={<>welcome back</>} />
+          </Route>
         </Route>
 
         <Route path="/auth" element={<Auth />} />

@@ -1,5 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import customerService, { FindByCPFRequest } from "services/customer";
+
+import customerService, { RegisterCustomerRequest } from "services/customer";
+
 import { RootState } from "store";
 
 import { isRejectedAction, useAppDispatch, useAppSelector } from "store/hooks";
@@ -21,12 +23,49 @@ const initialState: CustomerState = {
   name: "",
   phone: "",
   errorMessage: "",
+  requestStatus: "idle",
 };
+
+type RegisterProps = Pick<RegisterCustomerRequest, "name" | "phone" | "email">;
+
+const register = createAsyncThunk(
+  "customer/new",
+  async ({ name, email, phone }: RegisterProps, thunkAPI) => {
+    const state = thunkAPI.getState() as RootState;
+
+    const token = state.company.jwt as string;
+    const userId = state.company.id;
+    const cpf = state.customer.cpf;
+
+    const data = await customerService.register({
+      token,
+      email,
+      cpf,
+      userId,
+      name,
+      phone,
+    });
+
+    if (data?.error) {
+      return thunkAPI.rejectWithValue({
+        error: data.error.message,
+      });
+    }
+
+    await thunkAPI.dispatch(setCustomer(data));
+
+    return data;
+  }
+);
 
 const findByCPF = createAsyncThunk(
   "customer/onboarding",
-  async ({ cpf, userId, token }: FindByCPFRequest, thunkAPI) => {
+  async (cpf: string, thunkAPI) => {
     const state = thunkAPI.getState() as RootState;
+
+    const token = state.company.jwt as string;
+
+    const userId = state.company.id;
 
     if (state.customer.id.length) {
       await thunkAPI.dispatch(resetCustomer());
@@ -45,12 +84,11 @@ const findByCPF = createAsyncThunk(
       });
     }
 
-    if (!data?.id) {
-      console.log("create new customer");
-      return;
+    if (!data?.id && data?.cpf) {
+      return await thunkAPI.dispatch(setNewCustomer(data));
     }
 
-    thunkAPI.dispatch(setCustomer(data));
+    await thunkAPI.dispatch(setCustomer(data));
 
     return data;
   }
@@ -67,6 +105,10 @@ const customerSlice = createSlice({
       state.name = action.payload.name;
       state.phone = action.payload.phone;
     },
+    setNewCustomer: (state, action) => {
+      state.cpf = action.payload.cpf;
+      return state;
+    },
     resetCustomer: (state) => {
       state = initialState;
       return state;
@@ -80,6 +122,13 @@ const customerSlice = createSlice({
       state.requestStatus = "fulfilled";
       state.errorMessage = "";
     });
+    builder.addCase(register.pending, (state: CustomerState) => {
+      state.requestStatus = "pending";
+    });
+    builder.addCase(register.fulfilled, (state: CustomerState) => {
+      state.requestStatus = "fulfilled";
+      state.errorMessage = "";
+    });
     builder.addMatcher(isRejectedAction, (state: CustomerState, action) => {
       state.requestStatus = "rejected";
       state.errorMessage = action.payload?.error || "Something went wrong";
@@ -87,7 +136,8 @@ const customerSlice = createSlice({
   },
 });
 
-export const { setCustomer, resetCustomer } = customerSlice.actions;
+export const { setCustomer, resetCustomer, setNewCustomer } =
+  customerSlice.actions;
 
 export function useCustomer() {
   const dispatch = useAppDispatch();
@@ -97,12 +147,15 @@ export function useCustomer() {
     // eslint-disable-next-line no-useless-escape
     new RegExp(/^\d{3}\.\d{3}\.\d{3}\-\d{2}$/).test(cpf);
 
-  const onFindByCPF = (data: FindByCPFRequest) => dispatch(findByCPF(data));
-
+  const onFindByCPF = (cpf: string) => dispatch(findByCPF(cpf));
+  const onResetCustomer = () => dispatch(resetCustomer());
+  const onRegister = (data: RegisterProps) => dispatch(register(data));
   return {
     customer,
     onFindByCPF,
     validateCPF,
+    onRegister,
+    onResetCustomer,
   };
 }
 
