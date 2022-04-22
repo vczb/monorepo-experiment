@@ -1,17 +1,18 @@
-import { useNavigate } from "react-router-dom";
-import { Box, Typography, Container, Paper } from "@mui/material";
-
+import { Box, Container, Divider, Paper, Typography } from "@mui/material";
 import { Wrapper } from "components";
+import Form from "./Form";
+
+import { useNavigate } from "react-router-dom";
+import { useCompany } from "features/company/companySlice";
 import { useCustomer } from "./customerSlice";
 
-import Form from "./Form";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 
-export default function Register() {
-  const { customer, onResetCustomer, onRegister } = useCustomer();
-  const { requestStatus } = customer;
-
+const Edit = () => {
   const navigate = useNavigate();
+  const { company } = useCompany();
+  const { onEdit, customer } = useCustomer();
+  const { requestStatus } = customer;
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -22,23 +23,22 @@ export default function Register() {
     const name = data?.get("name")?.toString() || "";
     const phone = data?.get("phone")?.toString() || "";
 
-    onRegister({
+    onEdit({
       email,
       name,
       phone,
     });
   };
 
-  useEffect(() => {
-    if (requestStatus === "fulfilled" && customer.id?.length) {
-      navigate("/customer/welcome");
-    }
-  }, [requestStatus, customer.id, navigate]);
+  const handleBack = useCallback(() => {
+    navigate("/customer/welcome");
+  }, [navigate]);
 
-  const handleBack = () => {
-    onResetCustomer();
-    navigate("/");
-  };
+  useEffect(() => {
+    if (requestStatus === "fulfilled") {
+      handleBack();
+    }
+  }, [handleBack, requestStatus]);
 
   return (
     <Wrapper fullVH>
@@ -59,13 +59,21 @@ export default function Register() {
               alignItems: "center",
             }}
           >
-            <Typography variant="h5">
-              Bem vindo(a) ! Vamos fazer seu cadastro
-            </Typography>
+            <Typography variant="h5">Editar dados</Typography>
           </Box>
           <Form onSubmit={handleSubmit} onCancel={() => handleBack()} />
+          <Divider sx={{ mb: 1 }} />
+          <Typography
+            sx={{ color: "text.secondary" }}
+            align={"center"}
+            variant="body1"
+          >
+            {company.name}
+          </Typography>
         </Paper>
       </Container>
     </Wrapper>
   );
-}
+};
+
+export default Edit;

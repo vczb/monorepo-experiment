@@ -19,7 +19,7 @@ const MaskField = ({ maskValue, mask, ...props }: MaskFieldProps) => {
   }, [mask]);
 
   return (
-    <InputMask mask={maskField} value={maskValue}>
+    <InputMask mask={maskField} defaultValue={maskValue}>
       {() => <TextField fullWidth {...props} />}
     </InputMask>
   );

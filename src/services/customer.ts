@@ -7,24 +7,19 @@ export type FindByCPFRequest = {
   token: string;
 };
 
-export type RegisterCustomerRequest = FindByCPFRequest & {
+export type RegisterOrEditRequest = {
   name: string;
   email: string;
   phone: string;
-};
+} & FindByCPFRequest;
 
-type FindByCPFResponse = Omit<CustomerState, "requestStatus" | "errorMessage">;
-
-type RegisterCustomerResponse = Omit<
-  CustomerState,
-  "requestStatus" | "errorMessage"
->;
+type CustomerResponse = Omit<CustomerState, "requestStatus" | "errorMessage">;
 
 async function findByCPF({
   cpf,
   userId,
   token = "",
-}: FindByCPFRequest): Promise<FechResponse & FindByCPFResponse> {
+}: FindByCPFRequest): Promise<FechResponse & CustomerResponse> {
   const url = process.env.REACT_APP_BASE_API_URL + `customer/onboarding`;
 
   return await fetch(url, {
@@ -47,8 +42,8 @@ async function register({
   email,
   userId,
   phone,
-}: RegisterCustomerRequest): Promise<FechResponse & RegisterCustomerResponse> {
-  const url = process.env.REACT_APP_BASE_API_URL + `customer/new`;
+}: RegisterOrEditRequest): Promise<FechResponse & CustomerResponse> {
+  const url = process.env.REACT_APP_BASE_API_URL + `customer/register`;
 
   return await fetch(url, {
     method: "POST",
@@ -56,7 +51,30 @@ async function register({
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ userId, cpf, name, phone, email }),
+    body: JSON.stringify({ user_id: userId, cpf, name, phone, email }),
+  })
+    .then((res) => res.json())
+    .then((res) => res)
+    .catch((err) => err);
+}
+
+async function edit({
+  token,
+  cpf,
+  name,
+  email,
+  userId,
+  phone,
+}: RegisterOrEditRequest): Promise<FechResponse & CustomerResponse> {
+  const url = process.env.REACT_APP_BASE_API_URL + `customer/edit`;
+
+  return await fetch(url, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ user_id: userId, cpf, name, phone, email }),
   })
     .then((res) => res.json())
     .then((res) => res)
@@ -66,6 +84,7 @@ async function register({
 const customerService = {
   findByCPF,
   register,
+  edit,
 };
 
 export default customerService;

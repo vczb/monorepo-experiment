@@ -15,11 +15,12 @@ import {
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
 import { useCompany } from "./companySlice";
+import { useOnDestroy } from "hooks";
 
 export default function Auth() {
   const navigate = useNavigate();
 
-  const { company, onLogin } = useCompany();
+  const { company, onLogin, onResetRequestStatus } = useCompany();
 
   const { requestStatus, errorMessage, jwt } = company;
 
@@ -28,14 +29,14 @@ export default function Auth() {
 
     const data = new FormData(e.currentTarget);
 
-    const identifier = data?.get("email")?.toString() || "";
+    const email = data?.get("email")?.toString() || "";
     const password = data?.get("password")?.toString() || "";
 
-    if (!identifier.length || !password.length) {
+    if (!email.length || !password.length) {
       return;
     }
 
-    onLogin({ identifier, password });
+    onLogin({ email, password });
   };
 
   useEffect(() => {
@@ -43,6 +44,10 @@ export default function Auth() {
       navigate("/");
     }
   }, [requestStatus, jwt, navigate]);
+
+  useOnDestroy(() => {
+    onResetRequestStatus();
+  });
 
   return (
     <Container component="main" maxWidth="xs">

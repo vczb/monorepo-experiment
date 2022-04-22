@@ -14,37 +14,43 @@ type AuthState = {
 export type CompanyState = {
   id: string;
   name: string;
+  owner: string;
   email: string;
+  phone: string;
   provider: string;
   confirmed: boolean;
   blocked: boolean;
   createdAt: string;
   updatedAt: string;
+  diamond_price_in_cents: number;
   jwt?: string;
 } & AuthState;
 
 const initialState: CompanyState = {
   id: "",
   name: "",
+  owner: "",
   email: "",
+  phone: "",
   provider: "",
-  confirmed: false,
-  blocked: true,
+  blocked: false,
+  confirmed: true,
   createdAt: "",
   updatedAt: "",
+  diamond_price_in_cents: 1000,
   jwt: "",
 };
 
 const login = createAsyncThunk(
   "company/login",
-  async ({ identifier, password }: LoginRequest, thunkAPI) => {
+  async ({ email, password }: LoginRequest, thunkAPI) => {
     const state = thunkAPI.getState() as RootState;
 
     if (state.company.id.length) {
       await thunkAPI.dispatch(resetCompany());
     }
 
-    const data = await authService.login({ identifier, password });
+    const data = await authService.login({ email, password });
 
     if (data?.error) {
       return thunkAPI.rejectWithValue({
@@ -70,9 +76,11 @@ const companySlice = createSlice({
     setCompany: (state, action) => {
       state.jwt = action.payload.jwt || "";
       state.id = String(action.payload.user.id);
-      state.name = action.payload.user.username;
+      state.name = action.payload.user.company_name;
+      state.owner = action.payload.user.owner;
+      state.phone = action.payload.user.phone;
       state.email = action.payload.user.email;
-      state.confirmed = action.payload.user.confirmed;
+      state.diamond_price_in_cents = action.payload.user.diamond_price_in_cents;
       state.blocked = action.payload.user.blocked;
       state.createdAt = action.payload.user.createdAt;
       state.updatedAt = action.payload.user.updatedAt;
@@ -80,6 +88,11 @@ const companySlice = createSlice({
     },
     resetCompany: (state) => {
       state = initialState;
+      return state;
+    },
+    resetRequestStatus: (state) => {
+      state.requestStatus = "idle";
+      state.errorMessage = "";
       return state;
     },
   },
@@ -101,7 +114,8 @@ const companySlice = createSlice({
   },
 });
 
-export const { setCompany, resetCompany } = companySlice.actions;
+export const { setCompany, resetCompany, resetRequestStatus } =
+  companySlice.actions;
 
 export function useCompany() {
   const company = useAppSelector((state) => state.company);
@@ -109,10 +123,13 @@ export function useCompany() {
 
   const onLogin = (data: LoginRequest) => dispatch(login(data));
   const onLogout = () => dispatch(logout());
+  const onResetRequestStatus = () => dispatch(resetRequestStatus());
+
   return {
     company,
     onLogin,
     onLogout,
+    onResetRequestStatus,
   };
 }
 

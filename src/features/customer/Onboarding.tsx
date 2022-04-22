@@ -12,6 +12,7 @@ import {
 import { useCustomer } from "./customerSlice";
 import { useCompany } from "features/company/companySlice";
 import { useNavigate } from "react-router-dom";
+import { useOnDestroy } from "hooks";
 
 const bgImage = {
   backgroundImage: "url(/img/onboarding-bg.png)",
@@ -23,7 +24,7 @@ const bgImage = {
 
 export default function Onboarding() {
   const { company } = useCompany();
-  const { customer, validateCPF } = useCustomer();
+  const { customer, validateCPF, onResetRequestStatus } = useCustomer();
   const { onFindByCPF } = useCustomer();
   const navigate = useNavigate();
 
@@ -51,11 +52,15 @@ export default function Onboarding() {
     }
 
     if (id?.length) {
-      navigate("/welcome");
+      navigate("/customer/welcome");
     } else {
-      navigate("/new");
+      navigate("/customer/new");
     }
-  }, [id, requestStatus, navigate]);
+  }, [id, requestStatus, navigate, onResetRequestStatus]);
+
+  useOnDestroy(() => {
+    onResetRequestStatus();
+  });
 
   return (
     <Wrapper fullVH>

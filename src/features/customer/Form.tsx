@@ -1,6 +1,7 @@
 import { FormControl, Button, TextField, Grid } from "@mui/material";
 
 import { MaskField } from "components";
+import { useOnDestroy } from "hooks";
 
 import { useCustomer } from "./customerSlice";
 
@@ -10,8 +11,12 @@ type FormProps = {
 };
 
 const Form = ({ onCancel, onSubmit }: FormProps) => {
-  const { customer } = useCustomer();
-  const { cpf, requestStatus, errorMessage } = customer;
+  const { customer, onResetRequestStatus } = useCustomer();
+  const { cpf, email, name, phone, requestStatus, errorMessage } = customer;
+
+  useOnDestroy(() => {
+    onResetRequestStatus();
+  });
 
   return (
     <FormControl
@@ -29,6 +34,7 @@ const Form = ({ onCancel, onSubmit }: FormProps) => {
         label="Nome"
         type="text"
         id="name"
+        defaultValue={name}
         autoComplete={"off"}
         error={requestStatus === "rejected"}
         helperText={errorMessage}
@@ -40,6 +46,7 @@ const Form = ({ onCancel, onSubmit }: FormProps) => {
         id="email"
         label="Email"
         name="email"
+        defaultValue={email}
         autoComplete={"off"}
         error={requestStatus === "rejected"}
         helperText={errorMessage}
@@ -50,6 +57,7 @@ const Form = ({ onCancel, onSubmit }: FormProps) => {
             mask="phone"
             name="phone"
             label="Telefone"
+            maskValue={phone}
             error={requestStatus === "rejected"}
             helperText={errorMessage}
           />
@@ -80,7 +88,12 @@ const Form = ({ onCancel, onSubmit }: FormProps) => {
           </Button>
         </Grid>
         <Grid item xs={8}>
-          <Button type="submit" fullWidth variant="contained">
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            disabled={requestStatus === "pending"}
+          >
             CONTINUAR
           </Button>
         </Grid>

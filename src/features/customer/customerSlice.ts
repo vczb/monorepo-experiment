@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-import customerService, { RegisterCustomerRequest } from "services/customer";
+import customerService, { RegisterOrEditRequest } from "services/customer";
 
 import { RootState } from "store";
 
@@ -26,11 +26,14 @@ const initialState: CustomerState = {
   requestStatus: "idle",
 };
 
-type RegisterProps = Pick<RegisterCustomerRequest, "name" | "phone" | "email">;
+type CustomerRequestProps = Pick<
+  RegisterOrEditRequest,
+  "name" | "phone" | "email"
+>;
 
 const register = createAsyncThunk(
   "customer/new",
-  async ({ name, email, phone }: RegisterProps, thunkAPI) => {
+  async ({ name, email, phone }: CustomerRequestProps, thunkAPI) => {
     const state = thunkAPI.getState() as RootState;
 
     const token = state.company.jwt as string;
@@ -38,6 +41,38 @@ const register = createAsyncThunk(
     const cpf = state.customer.cpf;
 
     const data = await customerService.register({
+      token,
+      email,
+      cpf,
+      userId,
+      name,
+      phone,
+    });
+
+    if (data?.error) {
+      return thunkAPI.rejectWithValue({
+        error: data.error.message,
+      });
+    }
+
+    await thunkAPI.dispatch(setCustomer(data));
+
+    return data;
+  }
+);
+
+const edit = createAsyncThunk(
+  "customer/edit",
+  async ({ name, email, phone }: CustomerRequestProps, thunkAPI) => {
+    const state = thunkAPI.getState() as RootState;
+
+    const token = state.company.jwt as string;
+    const userId = state.company.id;
+    const cpf = state.customer.cpf;
+
+    console.log("editing");
+
+    const data = await customerService.edit({
       token,
       email,
       cpf,
@@ -113,6 +148,11 @@ const customerSlice = createSlice({
       state = initialState;
       return state;
     },
+    resetRequestStatus: (state) => {
+      state.requestStatus = "idle";
+      state.errorMessage = "";
+      return state;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(findByCPF.pending, (state: CustomerState) => {
@@ -129,6 +169,13 @@ const customerSlice = createSlice({
       state.requestStatus = "fulfilled";
       state.errorMessage = "";
     });
+    builder.addCase(edit.pending, (state: CustomerState) => {
+      state.requestStatus = "pending";
+    });
+    builder.addCase(edit.fulfilled, (state: CustomerState) => {
+      state.requestStatus = "fulfilled";
+      state.errorMessage = "";
+    });
     builder.addMatcher(isRejectedAction, (state: CustomerState, action) => {
       state.requestStatus = "rejected";
       state.errorMessage = action.payload?.error || "Something went wrong";
@@ -136,8 +183,12 @@ const customerSlice = createSlice({
   },
 });
 
-export const { setCustomer, resetCustomer, setNewCustomer } =
-  customerSlice.actions;
+export const {
+  setCustomer,
+  resetCustomer,
+  setNewCustomer,
+  resetRequestStatus,
+} = customerSlice.actions;
 
 export function useCustomer() {
   const dispatch = useAppDispatch();
@@ -149,13 +200,18 @@ export function useCustomer() {
 
   const onFindByCPF = (cpf: string) => dispatch(findByCPF(cpf));
   const onResetCustomer = () => dispatch(resetCustomer());
-  const onRegister = (data: RegisterProps) => dispatch(register(data));
+  const onRegister = (data: CustomerRequestProps) => dispatch(register(data));
+  const onEdit = (data: CustomerRequestProps) => dispatch(edit(data));
+  const onResetRequestStatus = () => dispatch(resetRequestStatus());
+
   return {
     customer,
     onFindByCPF,
     validateCPF,
     onRegister,
+    onEdit,
     onResetCustomer,
+    onResetRequestStatus,
   };
 }
 

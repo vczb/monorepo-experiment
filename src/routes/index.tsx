@@ -6,6 +6,8 @@ import { useCustomer } from "features/customer/customerSlice";
 import { Protected } from "routes/protected";
 import Onboarding from "features/customer/Onboarding";
 import Register from "features/customer/Register";
+import Welcome from "features/customer/Welcome";
+import Edit from "features/customer/Edit";
 
 export default function AppRoutes() {
   const { company } = useCompany();
@@ -20,8 +22,15 @@ export default function AppRoutes() {
               <Protected isAllowed={!!customer.cpf?.length} redirectTo={"/"} />
             }
           >
-            <Route path="/new" element={<Register />} />
-            <Route path="/welcome" element={<>welcome back</>} />
+            <Route path="/customer/new" element={<Register />} />
+            <Route path="/customer/welcome" element={<Welcome />} />
+            <Route
+              element={
+                <Protected isAllowed={!!customer.id?.length} redirectTo={"/"} />
+              }
+            >
+              <Route path="/customer/edit" element={<Edit />} />
+            </Route>
           </Route>
         </Route>
 

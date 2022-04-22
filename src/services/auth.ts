@@ -7,22 +7,22 @@ type LoginResponse = {
 };
 
 export type LoginRequest = {
-  identifier: string;
+  email: string;
   password: string;
 };
 
 async function login({
-  identifier,
+  email,
   password,
 }: LoginRequest): Promise<FechResponse & LoginResponse> {
-  const url = process.env.REACT_APP_BASE_API_URL + "auth/local";
+  const url = process.env.REACT_APP_BASE_API_URL + "auth/login";
 
   return await fetch(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ identifier, password }),
+    body: JSON.stringify({ email, password }),
   })
     .then((res) => res.json())
     .then((res) => res)
