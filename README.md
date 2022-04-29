@@ -1,6 +1,7 @@
-# PONTUEI
+# Gamou Loyalitty
 
 It's an gamification program to loyalty points.
+Integrated with [Gamou](https://github.com/vczb/gamou) App.
 
 ## What is inside?
 
@@ -17,7 +18,7 @@ It's an gamification program to loyalty points.
 1. First clone the repository
 
 ```bash
-  git clone git@github.com:vczb/pontuei-client.git
+  git clone git@github.com:vczb/gamou-loyalitty.git
 ```
 
 2. Install dependencies
@@ -29,8 +30,8 @@ It's an gamification program to loyalty points.
 4. Add the environment variables
 
 ```bash
-REACT_APP_BASE_API_URL=http://localhost:1337/api/
-REACT_APP_STORAGE_ROOT_KEY=pontuei
+REACT_APP_BASE_API_URL=https://stg1-gamou.herokuapp.com/api/v1/
+REACT_APP_STORAGE_ROOT_KEY=gamou-loyalitty
 ```
 
 4. Run the application
