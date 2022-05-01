@@ -13,6 +13,7 @@ const MaskField = ({ maskValue, mask, ...props }: MaskFieldProps) => {
     switch (mask) {
       case "phone":
         return "+99 (99) 99999-9999";
+      case "cpf":
       default:
         return "999.999.999-99";
     }

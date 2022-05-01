@@ -22,7 +22,7 @@ export type CompanyState = {
   blocked: boolean;
   createdAt: string;
   updatedAt: string;
-  diamond_price_in_cents: number;
+  diamondPriceInCents: number;
   jwt?: string;
 } & AuthState;
 
@@ -37,7 +37,7 @@ const initialState: CompanyState = {
   confirmed: true,
   createdAt: "",
   updatedAt: "",
-  diamond_price_in_cents: 1000,
+  diamondPriceInCents: 1000,
   jwt: "",
 };
 
@@ -80,7 +80,7 @@ const companySlice = createSlice({
       state.owner = action.payload.user.owner;
       state.phone = action.payload.user.phone;
       state.email = action.payload.user.email;
-      state.diamond_price_in_cents = action.payload.user.diamond_price_in_cents;
+      state.diamondPriceInCents = action.payload.user.diamond_price_in_cents;
       state.blocked = action.payload.user.blocked;
       state.createdAt = action.payload.user.createdAt;
       state.updatedAt = action.payload.user.updatedAt;

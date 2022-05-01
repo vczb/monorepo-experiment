@@ -12,6 +12,10 @@ const Welcome = () => {
     navigate("/customer/edit");
   };
 
+  const handleDiamonds = () => {
+    navigate("/transaction/diamonds");
+  };
+
   const handleBlack = () => {
     onResetCustomer();
     navigate("/");
@@ -47,7 +51,12 @@ const Welcome = () => {
             >{`Como podemos ajudar?`}</Typography>
           </Box>
           <Grid container sx={{ my: 2 }} gap={2} justifyContent="space-between">
-            <Button type="submit" fullWidth variant="contained">
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              onClick={() => handleDiamonds()}
+            >
               ADICIONAR PONTOS
             </Button>
             <Button type="submit" fullWidth variant="contained">

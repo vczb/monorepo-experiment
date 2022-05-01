@@ -1,0 +1,109 @@
+import { useCallback } from "react";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+
+import { isRejectedAction, useAppDispatch, useAppSelector } from "store/hooks";
+import { RootState } from "store";
+import transactionService, { TransactionRequest } from "services/transaction";
+
+export type TransactionState = {
+  requestStatus: "idle" | "pending" | "fulfilled" | "rejected";
+  errorMessage?: string;
+  id?: string | number;
+};
+
+const initialState = {
+  requestStatus: "idle",
+  errorMessage: "",
+  id: "",
+};
+
+type PurchaseProps = Pick<TransactionRequest, "value">;
+
+const purchase = createAsyncThunk(
+  "transaction/purchase",
+  async ({ value }: PurchaseProps, thunkAPI) => {
+    const state = thunkAPI.getState() as RootState;
+
+    const token = state.company.jwt as string;
+    const userId = state.company.id as string;
+    const customerId = state.customer.id as string;
+
+    const data = await transactionService.purchase({
+      token,
+      userId,
+      customerId,
+      value,
+    });
+
+    if (data?.error) {
+      return thunkAPI.rejectWithValue({
+        error: data.error.message,
+      });
+    }
+
+    await thunkAPI.dispatch(setTransaction(data));
+
+    return data;
+  }
+);
+
+const transactionSlice = createSlice({
+  name: "transaction",
+  initialState,
+  reducers: {
+    setTransaction: (state, action) => {
+      state.requestStatus = "fulfilled";
+      state.errorMessage = "";
+      state.id = action.payload.transaction.id;
+      return state;
+    },
+    resetRequestStatus: (state) => {
+      state.requestStatus = "idle";
+      state.errorMessage = "";
+      state.id = "";
+      return state;
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(purchase.pending, (state) => {
+      state.requestStatus = "pending";
+    });
+    builder.addCase(purchase.fulfilled, (state) => {
+      state.requestStatus = "fulfilled";
+      state.errorMessage = "";
+    });
+    builder.addMatcher(isRejectedAction, (state, action) => {
+      state.requestStatus = "rejected";
+      state.errorMessage = action.payload?.error || "Something went wrong";
+    });
+  },
+});
+
+export const { setTransaction, resetRequestStatus } = transactionSlice.actions;
+
+export function useTransaction() {
+  const dispatch = useAppDispatch();
+  const transaction = useAppSelector((state) => state.transaction);
+  const company = useAppSelector((state) => state.company);
+  const onResetRequestStatus = () => dispatch(resetRequestStatus());
+  const onPurchase = (data: PurchaseProps) => dispatch(purchase(data));
+
+  const calcDiamonds = useCallback(
+    (diamonds: number) => {
+      const price = company.diamondPriceInCents / 100;
+      return Math.floor(diamonds / price);
+    },
+    [company.diamondPriceInCents]
+  );
+
+  return {
+    dispatch,
+    transaction,
+    calcDiamonds,
+    onPurchase,
+    onResetRequestStatus,
+  };
+}
+
+const { reducer } = transactionSlice;
+export default reducer;
