@@ -9,6 +9,7 @@ import Register from "features/customer/Register";
 import Welcome from "features/customer/Welcome";
 import Edit from "features/customer/Edit";
 import Diamonds from "features/transaction/Diamonds";
+import Finish from "features/transaction/Finish";
 
 export default function AppRoutes() {
   const { company } = useCompany();
@@ -33,6 +34,7 @@ export default function AppRoutes() {
               <Route path="/customer/edit" element={<Edit />} />
 
               <Route path="/transaction/diamonds" element={<Diamonds />} />
+              <Route path="/transaction/finish" element={<Finish />} />
             </Route>
           </Route>
         </Route>

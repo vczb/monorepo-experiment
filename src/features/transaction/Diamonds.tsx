@@ -91,7 +91,6 @@ export default function Diamonds() {
           <FormControl
             component="form"
             onSubmit={handleSubmit}
-            noValidate
             sx={{ mt: 1, p: 1, width: "100%" }}
           >
             <Grid

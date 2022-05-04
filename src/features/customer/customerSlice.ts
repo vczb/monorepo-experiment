@@ -6,6 +6,10 @@ import { RootState } from "store";
 
 import { isRejectedAction, useAppDispatch, useAppSelector } from "store/hooks";
 
+export type Wallet = {
+  diamonds: number;
+};
+
 export type CustomerState = {
   requestStatus?: "idle" | "pending" | "fulfilled" | "rejected";
   id: string;
@@ -14,6 +18,7 @@ export type CustomerState = {
   name: string;
   phone: string;
   errorMessage?: string;
+  wallet?: Wallet;
 };
 
 const initialState: CustomerState = {
@@ -93,6 +98,31 @@ const edit = createAsyncThunk(
   }
 );
 
+const getWallet = createAsyncThunk("customer/wallet", async (_, thunkAPI) => {
+  const state = thunkAPI.getState() as RootState;
+  console.log("wallet", state);
+
+  const token = state.company.jwt as string;
+  const userId = state.company.id;
+  const customerId = state.customer.id;
+
+  const data = await customerService.getWallet({
+    token,
+    userId,
+    customerId,
+  });
+
+  if (data?.error) {
+    return thunkAPI.rejectWithValue({
+      error: data.error.message,
+    });
+  }
+
+  await thunkAPI.dispatch(setWallet(data));
+
+  return data;
+});
+
 const findByCPF = createAsyncThunk(
   "customer/onboarding",
   async (cpf: string, thunkAPI) => {
@@ -140,6 +170,10 @@ const customerSlice = createSlice({
       state.name = action.payload.name;
       state.phone = action.payload.phone;
     },
+    setWallet: (state, action) => {
+      console.log("wallet", action.payload);
+      state.wallet = action.payload;
+    },
     setNewCustomer: (state, action) => {
       state.cpf = action.payload.cpf;
       return state;
@@ -176,6 +210,13 @@ const customerSlice = createSlice({
       state.requestStatus = "fulfilled";
       state.errorMessage = "";
     });
+    builder.addCase(getWallet.pending, (state: CustomerState) => {
+      state.requestStatus = "pending";
+    });
+    builder.addCase(getWallet.fulfilled, (state: CustomerState) => {
+      state.requestStatus = "fulfilled";
+      state.errorMessage = "";
+    });
     builder.addMatcher(isRejectedAction, (state: CustomerState, action) => {
       state.requestStatus = "rejected";
       state.errorMessage = action.payload?.error || "Something went wrong";
@@ -185,6 +226,7 @@ const customerSlice = createSlice({
 
 export const {
   setCustomer,
+  setWallet,
   resetCustomer,
   setNewCustomer,
   resetRequestStatus,
@@ -201,6 +243,7 @@ export function useCustomer() {
   const onFindByCPF = (cpf: string) => dispatch(findByCPF(cpf));
   const onResetCustomer = () => dispatch(resetCustomer());
   const onRegister = (data: CustomerRequestProps) => dispatch(register(data));
+  const onGetWallet = () => dispatch(getWallet());
   const onEdit = (data: CustomerRequestProps) => dispatch(edit(data));
   const onResetRequestStatus = () => dispatch(resetRequestStatus());
 
@@ -209,6 +252,7 @@ export function useCustomer() {
     onFindByCPF,
     validateCPF,
     onRegister,
+    onGetWallet,
     onEdit,
     onResetCustomer,
     onResetRequestStatus,

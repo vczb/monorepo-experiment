@@ -1,8 +1,14 @@
-import { CustomerState } from "features/customer/customerSlice";
+import { CustomerState, Wallet } from "features/customer/customerSlice";
 import { FechResponse } from "./fetch";
 
 export type FindByCPFRequest = {
   cpf: string;
+  userId: string;
+  token: string;
+};
+
+export type GetWalletRequest = {
+  customerId: string;
   userId: string;
   token: string;
 };
@@ -14,6 +20,8 @@ export type RegisterOrEditRequest = {
 } & FindByCPFRequest;
 
 type CustomerResponse = Omit<CustomerState, "requestStatus" | "errorMessage">;
+
+type WalletResponse = Wallet;
 
 async function findByCPF({
   cpf,
@@ -81,8 +89,30 @@ async function edit({
     .catch((err) => err);
 }
 
+async function getWallet({
+  token,
+  userId,
+  customerId,
+}: GetWalletRequest): Promise<FechResponse & WalletResponse> {
+  const url = process.env.REACT_APP_BASE_API_URL + `customer/wallet`;
+
+  const query = `?user_id=${userId}&customer_id=${customerId}`;
+
+  return await fetch(url + query, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((res) => res.json())
+    .then((res) => res)
+    .catch((err) => err);
+}
+
 const customerService = {
   findByCPF,
+  getWallet,
   register,
   edit,
 };
