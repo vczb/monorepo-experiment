@@ -16,6 +16,10 @@ const Welcome = () => {
     navigate("/transaction/diamonds");
   };
 
+  const handleProducts = () => {
+    navigate("/product/list");
+  };
+
   const handleBlack = () => {
     onResetCustomer();
     navigate("/");
@@ -59,7 +63,12 @@ const Welcome = () => {
             >
               ADICIONAR PONTOS
             </Button>
-            <Button type="submit" fullWidth variant="contained">
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              onClick={() => handleProducts()}
+            >
               RESGATAR PRÊMIOS
             </Button>
             <Button

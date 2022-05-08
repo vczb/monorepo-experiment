@@ -63,7 +63,7 @@ export default function Diamonds() {
 
   useEffect(() => {
     if (requestStatus === "fulfilled" && transaction?.id) {
-      navigate("/transaction/finish");
+      navigate("/product/list");
     }
   }, [requestStatus, transaction?.id, navigate]);
 

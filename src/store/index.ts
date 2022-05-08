@@ -16,6 +16,7 @@ import storage from "redux-persist/lib/storage";
 import customerReducer from "features/customer/customerSlice";
 import companyReducer from "features/company/companySlice";
 import transactionReducer from "features/transaction/transactionSlice";
+import productReducer from "features/product/productSlice";
 
 export const persistKey = process.env.REACT_APP_STORAGE_ROOT_KEY as string;
 
@@ -29,6 +30,7 @@ const reducers = combineReducers({
   company: companyReducer,
   customer: customerReducer,
   transaction: transactionReducer,
+  product: productReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);
