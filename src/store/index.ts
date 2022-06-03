@@ -11,7 +11,8 @@ import {
   PURGE,
   REGISTER,
 } from "redux-persist";
-import storage from "redux-persist/lib/storage";
+
+import storageSession from "redux-persist/lib/storage/session";
 
 import customerReducer from "features/customer/customerSlice";
 import companyReducer from "features/company/companySlice";
@@ -23,7 +24,7 @@ export const persistKey = process.env.REACT_APP_STORAGE_ROOT_KEY as string;
 const persistConfig = {
   key: persistKey,
   version: 1,
-  storage,
+  storage: storageSession,
 };
 
 const reducers = combineReducers({
