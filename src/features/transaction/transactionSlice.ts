@@ -19,6 +19,10 @@ const initialState = {
 
 type PurchaseProps = Pick<TransactionRequest, "value">;
 
+type WithdrawalProps = {
+  productId: string | number;
+};
+
 const purchase = createAsyncThunk(
   "transaction/purchase",
   async ({ value }: PurchaseProps, thunkAPI) => {
@@ -33,6 +37,34 @@ const purchase = createAsyncThunk(
       userId,
       customerId,
       value,
+    });
+
+    if (data?.error) {
+      return thunkAPI.rejectWithValue({
+        error: data.error.message,
+      });
+    }
+
+    await thunkAPI.dispatch(setTransaction(data));
+
+    return data;
+  }
+);
+
+const withdrawal = createAsyncThunk(
+  "transaction/withdrawal",
+  async ({ productId }: WithdrawalProps, thunkAPI) => {
+    const state = thunkAPI.getState() as RootState;
+
+    const token = state.company.jwt as string;
+    const userId = state.company.id as string;
+    const customerId = state.customer.id as string;
+
+    const data = await transactionService.withdrawal({
+      token,
+      userId,
+      customerId,
+      productId,
     });
 
     if (data?.error) {
@@ -72,6 +104,13 @@ const transactionSlice = createSlice({
       state.requestStatus = "fulfilled";
       state.errorMessage = "";
     });
+    builder.addCase(withdrawal.pending, (state) => {
+      state.requestStatus = "pending";
+    });
+    builder.addCase(withdrawal.fulfilled, (state) => {
+      state.requestStatus = "fulfilled";
+      state.errorMessage = "";
+    });
     builder.addMatcher(isRejectedAction, (state, action) => {
       state.requestStatus = "rejected";
       state.errorMessage = action.payload?.error || "Something went wrong";
@@ -87,6 +126,7 @@ export function useTransaction() {
   const company = useAppSelector((state) => state.company);
   const onResetRequestStatus = () => dispatch(resetRequestStatus());
   const onPurchase = (data: PurchaseProps) => dispatch(purchase(data));
+  const onWithdrawal = (data: WithdrawalProps) => dispatch(withdrawal(data));
 
   const calcDiamonds = useCallback(
     (diamonds: number) => {
@@ -101,6 +141,7 @@ export function useTransaction() {
     transaction,
     calcDiamonds,
     onPurchase,
+    onWithdrawal,
     onResetRequestStatus,
   };
 }

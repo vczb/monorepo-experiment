@@ -1,30 +1,31 @@
-import { useEffect } from "react";
-import {
-  Box,
-  Typography,
-  Container,
-  Paper,
-  Card,
-  CardMedia,
-  CardContent,
-  Button,
-} from "@mui/material";
+import { useEffect, useState } from "react";
+import { Box, Container, Paper, Button } from "@mui/material";
 
 import { Wrapper } from "components";
 import { useCustomer } from "features/customer/customerSlice";
-import { Diamond } from "icons";
 
 import { Product, useProduct } from "./productSlice";
 
 import styles from "./List.module.css";
+import Modal from "./Modal";
+import Item from "./Item";
+import Info from "./Info";
 
 export default function List() {
-  const { onGetWallet, customer, onResetCustomer } = useCustomer();
+  const { onGetWallet, onResetCustomer } = useCustomer();
   const { product, onList, onResetProduct } = useProduct();
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<Product>();
 
   const onFinish = () => {
     onResetProduct();
     onResetCustomer();
+  };
+
+  const handleProductClick = (product: Product) => {
+    setSelectedProduct(product);
+    setIsModalOpen(true);
   };
 
   useEffect(() => {
@@ -39,70 +40,14 @@ export default function List() {
         <Paper
           elevation={3}
           sx={{
-            marginTop: 8,
+            my: 8,
             padding: "1rem 2rem",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
           }}
         >
-          <Box
-            sx={{
-              width: "100%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              px: 1,
-            }}
-          >
-            <Typography
-              variant="h2"
-              sx={{
-                fontWeight: "400",
-              }}
-              color={"primary.dark"}
-            >
-              Produtos
-            </Typography>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
-            >
-              <Typography variant="h6">Saldo</Typography>
-              <Box
-                sx={{
-                  marginLeft: "auto",
-                  minWidth: "10rem",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-                color={"primary.dark"}
-              >
-                <Box
-                  sx={{
-                    height: 20,
-                    width: 20,
-                  }}
-                >
-                  <Diamond />
-                </Box>
-                <Typography
-                  variant="h4"
-                  sx={{
-                    fontWeight: "500",
-                  }}
-                  color={"primary.dark"}
-                >
-                  {(!!customer?.wallet && customer.wallet.diamonds) || 0}
-                </Typography>
-              </Box>
-            </Box>
-          </Box>
+          <Info />
           <Box
             color={"grey.300"}
             sx={{
@@ -119,61 +64,11 @@ export default function List() {
             }}
           >
             {product.products.map((item: Product) => (
-              <Card
+              <Item
                 key={item.id}
-                sx={{
-                  maxHeight: 150,
-                  display: "flex",
-                  width: "100%",
-                  mb: 1,
-                  cursor: "pointer",
-                }}
-              >
-                <CardMedia
-                  sx={{
-                    maxWidth: "15rem",
-                  }}
-                  component="img"
-                  image={item.image}
-                  alt="green iguana"
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
-                    {item.name}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {item.shortDescription}
-                  </Typography>
-                </CardContent>
-                <Box
-                  sx={{
-                    marginLeft: "auto",
-                    minWidth: "10rem",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                  color={"primary.dark"}
-                >
-                  <Typography
-                    variant="h4"
-                    sx={{
-                      fontWeight: "500",
-                    }}
-                    color={"primary.dark"}
-                  >
-                    {item.priceInDiamonds}
-                  </Typography>
-                  <Box
-                    sx={{
-                      height: 20,
-                      width: 20,
-                    }}
-                  >
-                    <Diamond />
-                  </Box>
-                </Box>
-              </Card>
+                item={item}
+                handleItemClick={handleProductClick}
+              />
             ))}
           </Box>
           <Box
@@ -192,11 +87,16 @@ export default function List() {
               fullWidth
               sx={{ margin: "auto", maxWidth: "25rem" }}
             >
-              CONCLUIR
+              FINALIZAR
             </Button>
           </Box>
         </Paper>
       </Container>
+      <Modal
+        product={selectedProduct}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </Wrapper>
   );
 }
