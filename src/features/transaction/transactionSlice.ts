@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-import { isRejectedAction, useAppDispatch, useAppSelector } from "store/hooks";
+import { useAppDispatch, useAppSelector } from "store/hooks";
 import { RootState } from "store";
 import transactionService, { TransactionRequest } from "services/transaction";
 
@@ -104,6 +104,11 @@ const transactionSlice = createSlice({
       state.requestStatus = "fulfilled";
       state.errorMessage = "";
     });
+    builder.addCase(purchase.rejected, (state, action) => {
+      state.requestStatus = "rejected";
+      const error = action?.error?.message || "Something went wrong";
+      state.errorMessage = error as string;
+    });
     builder.addCase(withdrawal.pending, (state) => {
       state.requestStatus = "pending";
     });
@@ -111,9 +116,10 @@ const transactionSlice = createSlice({
       state.requestStatus = "fulfilled";
       state.errorMessage = "";
     });
-    builder.addMatcher(isRejectedAction, (state, action) => {
+    builder.addCase(withdrawal.rejected, (state, action) => {
       state.requestStatus = "rejected";
-      state.errorMessage = action.payload?.error || "Something went wrong";
+      const error = action?.error?.message || "Something went wrong";
+      state.errorMessage = error as string;
     });
   },
 });

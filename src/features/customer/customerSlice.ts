@@ -4,7 +4,7 @@ import customerService, { RegisterOrEditRequest } from "services/customer";
 
 import { RootState } from "store";
 
-import { isRejectedAction, useAppDispatch, useAppSelector } from "store/hooks";
+import { useAppDispatch, useAppSelector } from "store/hooks";
 
 export type Wallet = {
   diamonds: number;
@@ -196,12 +196,22 @@ const customerSlice = createSlice({
       state.requestStatus = "fulfilled";
       state.errorMessage = "";
     });
+    builder.addCase(findByCPF.rejected, (state, action) => {
+      state.requestStatus = "rejected";
+      const error = action?.error?.message || "Something went wrong";
+      state.errorMessage = error as string;
+    });
     builder.addCase(register.pending, (state: CustomerState) => {
       state.requestStatus = "pending";
     });
     builder.addCase(register.fulfilled, (state: CustomerState) => {
       state.requestStatus = "fulfilled";
       state.errorMessage = "";
+    });
+    builder.addCase(register.rejected, (state, action) => {
+      state.requestStatus = "rejected";
+      const error = action?.error?.message || "Something went wrong";
+      state.errorMessage = error as string;
     });
     builder.addCase(edit.pending, (state: CustomerState) => {
       state.requestStatus = "pending";
@@ -210,6 +220,11 @@ const customerSlice = createSlice({
       state.requestStatus = "fulfilled";
       state.errorMessage = "";
     });
+    builder.addCase(edit.rejected, (state, action) => {
+      state.requestStatus = "rejected";
+      const error = action?.error?.message || "Something went wrong";
+      state.errorMessage = error as string;
+    });
     builder.addCase(getWallet.pending, (state: CustomerState) => {
       state.requestStatus = "pending";
     });
@@ -217,9 +232,10 @@ const customerSlice = createSlice({
       state.requestStatus = "fulfilled";
       state.errorMessage = "";
     });
-    builder.addMatcher(isRejectedAction, (state: CustomerState, action) => {
+    builder.addCase(getWallet.rejected, (state, action) => {
       state.requestStatus = "rejected";
-      state.errorMessage = action.payload?.error || "Something went wrong";
+      const error = action?.error?.message || "Something went wrong";
+      state.errorMessage = error as string;
     });
   },
 });

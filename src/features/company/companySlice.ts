@@ -108,7 +108,11 @@ const companySlice = createSlice({
       login.rejected,
       (state: AuthState, action: RejectedAction<LoginRequest>) => {
         state.requestStatus = "rejected";
-        state.errorMessage = action.payload?.error || "Something went wrong";
+        const error =
+          action?.error?.message ||
+          action.payload?.error ||
+          "Something went wrong";
+        state.errorMessage = error;
       }
     );
   },

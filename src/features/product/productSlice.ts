@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-import { isRejectedAction, useAppDispatch, useAppSelector } from "store/hooks";
+import { useAppDispatch, useAppSelector } from "store/hooks";
 import { RootState } from "store";
 import productService from "services/product";
 import { snakeToCamel } from "utils";
@@ -85,9 +85,10 @@ const productSlice = createSlice({
       state.requestStatus = "fulfilled";
       state.errorMessage = "";
     });
-    builder.addMatcher(isRejectedAction, (state, action) => {
+    builder.addCase(list.rejected, (state, action) => {
       state.requestStatus = "rejected";
-      state.errorMessage = action.payload?.error || "Something went wrong";
+      const error = action?.error?.message || "Something went wrong";
+      state.errorMessage = error as string;
     });
   },
 });

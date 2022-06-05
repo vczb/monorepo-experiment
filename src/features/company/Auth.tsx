@@ -8,8 +8,6 @@ import {
   Button,
   Container,
   TextField,
-  FormControlLabel,
-  Checkbox,
   Paper,
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -22,7 +20,7 @@ export default function Auth() {
 
   const { company, onLogin, onResetRequestStatus } = useCompany();
 
-  const { requestStatus, errorMessage, jwt } = company;
+  const { requestStatus, jwt } = company;
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -90,7 +88,6 @@ export default function Auth() {
             autoComplete="email"
             autoFocus
             error={requestStatus === "rejected"}
-            helperText={errorMessage}
           />
           <TextField
             margin="normal"
@@ -102,11 +99,6 @@ export default function Auth() {
             id="password"
             autoComplete="current-password"
             error={requestStatus === "rejected"}
-            helperText={errorMessage}
-          />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
           />
           <Button
             type="submit"

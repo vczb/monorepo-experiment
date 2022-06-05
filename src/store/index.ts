@@ -18,6 +18,7 @@ import customerReducer from "features/customer/customerSlice";
 import companyReducer from "features/company/companySlice";
 import transactionReducer from "features/transaction/transactionSlice";
 import productReducer from "features/product/productSlice";
+import notificationReducer from "features/notification/notificationSlice";
 
 export const persistKey = process.env.REACT_APP_STORAGE_ROOT_KEY as string;
 
@@ -32,6 +33,7 @@ const reducers = combineReducers({
   customer: customerReducer,
   transaction: transactionReducer,
   product: productReducer,
+  notification: notificationReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);

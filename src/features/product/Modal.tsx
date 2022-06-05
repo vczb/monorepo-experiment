@@ -10,6 +10,7 @@ import {
 import { useTransaction } from "features/transaction/transactionSlice";
 import { Product } from "./productSlice";
 import { useCustomer } from "features/customer/customerSlice";
+import { useNotification } from "features/notification/notificationSlice";
 
 type ModalProps = {
   isOpen: boolean;
@@ -19,6 +20,7 @@ type ModalProps = {
 
 const Modal = ({ product, isOpen, onClose }: ModalProps) => {
   const { onWithdrawal, transaction, onResetRequestStatus } = useTransaction();
+  const { onShowNotification } = useNotification();
   const { onGetWallet } = useCustomer();
   const [loading, setLoading] = useState(false);
 
@@ -40,9 +42,13 @@ const Modal = ({ product, isOpen, onClose }: ModalProps) => {
   useEffect(() => {
     if (transaction.requestStatus === "fulfilled") {
       onGetWallet();
+      onShowNotification({
+        type: "success",
+        message: "Produto resgatado com sucesso!",
+      });
       handleClose();
     }
-  }, [transaction.requestStatus, handleClose, onGetWallet]);
+  }, [transaction.requestStatus, handleClose, onGetWallet, onShowNotification]);
 
   return (
     <MUIModal

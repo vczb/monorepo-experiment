@@ -8,6 +8,7 @@ import AppRoutes from "routes";
 
 import { primary } from "theme/colors";
 import { globalStyles } from "theme/global";
+import Toast from "features/notification/Toast";
 
 const theme = createTheme({
   palette: {
@@ -32,6 +33,7 @@ function App() {
         {globalStyles}
         <ThemeProvider theme={theme}>
           <AppRoutes />
+          <Toast />
         </ThemeProvider>
       </PersistGate>
     </Provider>
