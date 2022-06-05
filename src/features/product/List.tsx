@@ -12,7 +12,7 @@ import Item from "./Item";
 import Info from "./Info";
 
 export default function List() {
-  const { onGetWallet, onResetCustomer } = useCustomer();
+  const { onGetWallet, customer, onResetCustomer } = useCustomer();
   const { product, onList, onResetProduct } = useProduct();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -68,6 +68,9 @@ export default function List() {
                 key={item.id}
                 item={item}
                 handleItemClick={handleProductClick}
+                disabled={
+                  (customer?.wallet?.diamonds || 0) < item.priceInDiamonds
+                }
               />
             ))}
           </Box>
