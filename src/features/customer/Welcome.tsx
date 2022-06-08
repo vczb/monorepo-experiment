@@ -1,5 +1,6 @@
-import { Box, Button, Container, Grid, Paper, Typography } from "@mui/material";
-import { Wrapper } from "components";
+import { Box, Button, Grid, Typography } from "@mui/material";
+
+import { Elevation, GridContainer, Wrapper } from "components";
 import { useNavigate } from "react-router-dom";
 import { useCustomer } from "./customerSlice";
 
@@ -27,17 +28,8 @@ const Welcome = () => {
 
   return (
     <Wrapper fullVH>
-      <Container component="main" maxWidth="sm">
-        <Paper
-          elevation={3}
-          sx={{
-            marginTop: 20,
-            padding: "1rem 2rem",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
+      <GridContainer>
+        <Elevation>
           <Box
             sx={{
               display: "flex",
@@ -52,7 +44,7 @@ const Welcome = () => {
             <Typography
               sx={{ mt: 2 }}
               variant="body1"
-            >{`Como podemos ajudar?`}</Typography>
+            >{`O que você quer fazer ?`}</Typography>
           </Box>
           <Grid container sx={{ my: 2 }} gap={2} justifyContent="space-between">
             <Button
@@ -85,11 +77,11 @@ const Welcome = () => {
               variant="outlined"
               onClick={() => handleBlack()}
             >
-              VOLTAR
+              SAIR
             </Button>
           </Grid>
-        </Paper>
-      </Container>
+        </Elevation>
+      </GridContainer>
     </Wrapper>
   );
 };

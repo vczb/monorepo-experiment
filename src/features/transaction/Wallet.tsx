@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from "react";
-import { Box, Typography, Button, Container, Paper, Grid } from "@mui/material";
+import { Box, Typography, Button, Grid } from "@mui/material";
 
-import { Wrapper } from "components";
+import { Elevation, GridContainer, Wrapper } from "components";
 import { useCustomer } from "features/customer/customerSlice";
 import { Diamond } from "icons";
 import { useNavigate } from "react-router-dom";
@@ -34,17 +34,8 @@ export default function Wallet() {
 
   return (
     <Wrapper fullVH>
-      <Container component="main" maxWidth="xs">
-        <Paper
-          elevation={3}
-          sx={{
-            marginTop: 20,
-            padding: "1rem 2rem",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
+      <GridContainer>
+        <Elevation>
           <Box
             sx={{
               display: "flex",
@@ -129,8 +120,8 @@ export default function Wallet() {
               </Grid>
             </Grid>
           </Box>
-        </Paper>
-      </Container>
+        </Elevation>
+      </GridContainer>
     </Wrapper>
   );
 }

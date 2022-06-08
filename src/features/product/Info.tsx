@@ -1,9 +1,11 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { useCustomer } from "features/customer/customerSlice";
 import { Diamond } from "icons";
 
 const Info = () => {
   const { customer } = useCustomer();
+  const theme = useTheme();
+  const greaterThanMD = useMediaQuery(theme.breakpoints.up("md"));
 
   return (
     <Box
@@ -16,7 +18,7 @@ const Info = () => {
       }}
     >
       <Typography
-        variant="h2"
+        variant={greaterThanMD ? "h2" : "h4"}
         sx={{
           fontWeight: "400",
         }}
@@ -32,7 +34,7 @@ const Info = () => {
           justifyContent: "space-between",
         }}
       >
-        <Typography variant="h6">Saldo</Typography>
+        <Typography variant={greaterThanMD ? "h4" : "h6"}>Saldo</Typography>
         <Box
           sx={{
             marginLeft: "auto",
@@ -52,7 +54,7 @@ const Info = () => {
             <Diamond />
           </Box>
           <Typography
-            variant="h4"
+            variant={greaterThanMD ? "h4" : "h6"}
             sx={{
               fontWeight: "500",
             }}

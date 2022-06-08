@@ -1,5 +1,5 @@
-import { Box, Container, Divider, Paper, Typography } from "@mui/material";
-import { Wrapper } from "components";
+import { Box, Divider, Typography } from "@mui/material";
+import { Elevation, GridContainer, Wrapper } from "components";
 import Form from "./Form";
 
 import { useNavigate } from "react-router-dom";
@@ -42,17 +42,8 @@ const Edit = () => {
 
   return (
     <Wrapper fullVH>
-      <Container component="main" maxWidth="sm">
-        <Paper
-          elevation={3}
-          sx={{
-            marginTop: 20,
-            padding: "1rem 2rem",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
+      <GridContainer>
+        <Elevation>
           <Box
             sx={{
               display: "flex",
@@ -70,8 +61,8 @@ const Edit = () => {
           >
             {company.name}
           </Typography>
-        </Paper>
-      </Container>
+        </Elevation>
+      </GridContainer>
     </Wrapper>
   );
 };

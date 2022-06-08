@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState } from "react";
 import {
   Modal as MUIModal,
   Container,
-  Paper,
   Box,
   Typography,
   Button,
@@ -11,6 +10,7 @@ import { useTransaction } from "features/transaction/transactionSlice";
 import { Product } from "./productSlice";
 import { useCustomer } from "features/customer/customerSlice";
 import { useNotification } from "features/notification/notificationSlice";
+import { Elevation } from "components";
 
 type ModalProps = {
   isOpen: boolean;
@@ -58,14 +58,15 @@ const Modal = ({ product, isOpen, onClose }: ModalProps) => {
       aria-describedby="modal-modal-description"
     >
       <Container component="main" maxWidth="lg">
-        <Paper
-          elevation={3}
+        <Elevation
           sx={{
-            marginTop: 20,
-            padding: "1rem 2rem",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
+            position: "absolute",
+            transform: "translate(50%, -50%)",
+            top: "50%",
+            right: "50%",
+            maxHeight: "80%",
+            width: "80%",
+            overflowY: "auto",
           }}
         >
           <Box>
@@ -87,7 +88,7 @@ const Modal = ({ product, isOpen, onClose }: ModalProps) => {
               {loading ? "Carregando..." : "Eu quero"}
             </Button>
           </Box>
-        </Paper>
+        </Elevation>
       </Container>
     </MUIModal>
   );

@@ -6,14 +6,13 @@ import {
   Avatar,
   FormControl,
   Button,
-  Container,
   TextField,
-  Paper,
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
 import { useCompany } from "./companySlice";
 import { useOnDestroy } from "hooks";
+import { Elevation, GridContainer, Wrapper } from "components";
 
 export default function Auth() {
   const navigate = useNavigate();
@@ -48,69 +47,62 @@ export default function Auth() {
   });
 
   return (
-    <Container component="main" maxWidth="xs">
-      <Paper
-        elevation={3}
-        sx={{
-          marginTop: 20,
-          padding: "1rem 2rem",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <Typography component="h1" variant="h2" color={"primary.dark"}>
-            PONTUEI
-          </Typography>
-          <Avatar sx={{ m: 1, bgcolor: "primary.dark" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-        </Box>
-        <FormControl
-          component="form"
-          onSubmit={handleSubmit}
-          noValidate
-          sx={{ mt: 1, width: "100%" }}
-        >
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email"
-            name="email"
-            autoComplete="email"
-            autoFocus
-            error={requestStatus === "rejected"}
-          />
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            error={requestStatus === "rejected"}
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-            disabled={requestStatus === "pending"}
+    <Wrapper fullVH bgColor="primary.white">
+      <GridContainer maxWidth="xs">
+        <Elevation>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+            }}
           >
-            ENTRAR
-          </Button>
-        </FormControl>
-      </Paper>
-    </Container>
+            <Typography component="h1" variant="h2" color={"primary.dark"}>
+              PONTUEI
+            </Typography>
+            <Avatar sx={{ m: 1, bgcolor: "primary.dark" }}>
+              <LockOutlinedIcon />
+            </Avatar>
+          </Box>
+          <FormControl
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{ mt: 1, width: "100%" }}
+          >
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email"
+              name="email"
+              autoComplete="email"
+              autoFocus
+              error={requestStatus === "rejected"}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Senha"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              error={requestStatus === "rejected"}
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+              disabled={requestStatus === "pending"}
+            >
+              ENTRAR
+            </Button>
+          </FormControl>
+        </Elevation>
+      </GridContainer>
+    </Wrapper>
   );
 }

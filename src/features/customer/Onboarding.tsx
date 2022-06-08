@@ -1,14 +1,7 @@
 import React, { useEffect } from "react";
 
-import { MaskField, Wrapper } from "components";
-import {
-  Button,
-  Divider,
-  FormControl,
-  Grid,
-  Paper,
-  Typography,
-} from "@mui/material";
+import { Elevation, MaskField, Wrapper } from "components";
+import { Button, Divider, FormControl, Grid, Typography } from "@mui/material";
 import { useCustomer } from "./customerSlice";
 import { useCompany } from "features/company/companySlice";
 import { useNavigate } from "react-router-dom";
@@ -81,7 +74,7 @@ export default function Onboarding() {
           alignItems="center"
           sx={{ p: 2, width: "100%", minWidth: "30rem" }}
         >
-          <Paper elevation={3} sx={{ p: 4 }}>
+          <Elevation sx={{ p: 4 }}>
             <Typography sx={{ mb: 3 }} variant="h6">
               É muito bom ter você aqui conosco!
             </Typography>
@@ -124,7 +117,7 @@ export default function Onboarding() {
             >
               {company.name}
             </Typography>
-          </Paper>
+          </Elevation>
         </Grid>
       </Grid>
     </Wrapper>

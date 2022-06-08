@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { Box, Container, Paper, Button } from "@mui/material";
+import { Box, Button, useTheme, useMediaQuery } from "@mui/material";
 
-import { Wrapper } from "components";
+import { Elevation, GridContainer, Wrapper } from "components";
 import { useCustomer } from "features/customer/customerSlice";
 
 import { Product, useProduct } from "./productSlice";
@@ -17,6 +17,9 @@ export default function List() {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product>();
+
+  const theme = useTheme();
+  const greaterThanLG = useMediaQuery(theme.breakpoints.up("lg"));
 
   const onFinish = () => {
     onResetProduct();
@@ -36,15 +39,10 @@ export default function List() {
 
   return (
     <Wrapper fullVH>
-      <Container component="main" maxWidth="lg">
-        <Paper
-          elevation={3}
+      <GridContainer maxWidth="lg">
+        <Elevation
           sx={{
             my: 8,
-            padding: "1rem 2rem",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
           }}
         >
           <Info />
@@ -58,7 +56,7 @@ export default function List() {
           />
           <Box
             sx={{
-              maxHeight: "30rem",
+              maxHeight: greaterThanLG ? "15rem" : "10rem",
               overflowY: "auto",
               px: 1,
             }}
@@ -93,8 +91,8 @@ export default function List() {
               FINALIZAR
             </Button>
           </Box>
-        </Paper>
-      </Container>
+        </Elevation>
+      </GridContainer>
       <Modal
         product={selectedProduct}
         isOpen={isModalOpen}

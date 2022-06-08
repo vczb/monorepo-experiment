@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import { Box, Typography, Container, Paper } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
-import { Wrapper } from "components";
+import { Elevation, GridContainer, Wrapper } from "components";
 import { useCustomer } from "./customerSlice";
 
 import Form from "./Form";
@@ -42,17 +42,8 @@ export default function Register() {
 
   return (
     <Wrapper fullVH>
-      <Container component="main" maxWidth="sm">
-        <Paper
-          elevation={3}
-          sx={{
-            marginTop: 20,
-            padding: "1rem 2rem",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
+      <GridContainer>
+        <Elevation>
           <Box
             sx={{
               display: "flex",
@@ -64,8 +55,8 @@ export default function Register() {
             </Typography>
           </Box>
           <Form onSubmit={handleSubmit} onCancel={() => handleBack()} />
-        </Paper>
-      </Container>
+        </Elevation>
+      </GridContainer>
     </Wrapper>
   );
 }

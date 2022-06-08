@@ -35,7 +35,7 @@ const Item = ({ item, disabled = false, handleItemClick }: ItemProps) => {
     >
       <CardMedia
         sx={{
-          maxWidth: "15rem",
+          maxWidth: "10rem",
         }}
         component="img"
         image={item.image}
@@ -52,7 +52,7 @@ const Item = ({ item, disabled = false, handleItemClick }: ItemProps) => {
       <Box
         sx={{
           marginLeft: "auto",
-          minWidth: "10rem",
+          minWidth: "5rem",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",

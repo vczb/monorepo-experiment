@@ -6,15 +6,13 @@ import {
   Typography,
   FormControl,
   Button,
-  Container,
   TextField,
-  Paper,
   Grid,
 } from "@mui/material";
 
 import { useOnDestroy } from "hooks";
 
-import { Wrapper } from "components";
+import { Elevation, GridContainer, Wrapper } from "components";
 
 import { useTransaction } from "./transactionSlice";
 
@@ -69,17 +67,8 @@ export default function Diamonds() {
 
   return (
     <Wrapper fullVH>
-      <Container component="main" maxWidth="xs">
-        <Paper
-          elevation={3}
-          sx={{
-            marginTop: 20,
-            padding: "1rem 2rem",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
+      <GridContainer>
+        <Elevation>
           <Box
             sx={{
               display: "flex",
@@ -177,8 +166,8 @@ export default function Diamonds() {
               </Grid>
             </Grid>
           </FormControl>
-        </Paper>
-      </Container>
+        </Elevation>
+      </GridContainer>
     </Wrapper>
   );
 }

@@ -6,16 +6,23 @@ type HTMLDIVElementTypes = HTMLAttributes<HTMLDivElement>;
 type WrapperTypes = {
   children: ReactNode | string | null;
   fullVH?: boolean;
+  bgColor?: "primary.main" | "primary.white";
 } & HTMLDIVElementTypes;
 
-const Wrapper = ({ children, fullVH = false, ...props }: WrapperTypes) => {
+const Wrapper = ({
+  children,
+  fullVH = false,
+  bgColor = "primary.main",
+  ...props
+}: WrapperTypes) => {
   return (
     <Box
+      component="main"
       sx={{
         width: "100%",
         height: fullVH ? "100vh" : "100%",
         overflowX: "hidden",
-        backgroundColor: "primary.main",
+        backgroundColor: bgColor,
       }}
       {...props}
     >
