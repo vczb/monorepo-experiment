@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import {
   Modal as MUIModal,
   Container,
@@ -19,19 +19,10 @@ type ModalProps = {
 };
 
 const Modal = ({ product, isOpen, onClose }: ModalProps) => {
-  const { onWithdrawal, transaction, onResetRequestStatus } = useTransaction();
+  const { onWithdrawal, onResetRequestStatus } = useTransaction();
   const { onShowNotification } = useNotification();
   const { onGetWallet } = useCustomer();
   const [loading, setLoading] = useState(false);
-
-  const handleSubmit = useCallback(() => {
-    setLoading(true);
-    if (product) {
-      onWithdrawal({
-        productId: product.id,
-      });
-    }
-  }, [onWithdrawal, product]);
 
   const handleClose = useCallback(() => {
     setLoading(false);
@@ -39,16 +30,21 @@ const Modal = ({ product, isOpen, onClose }: ModalProps) => {
     onClose();
   }, [onClose, onResetRequestStatus]);
 
-  useEffect(() => {
-    if (transaction.requestStatus === "fulfilled") {
-      onGetWallet();
-      onShowNotification({
-        type: "success",
-        message: "Produto resgatado com sucesso!",
+  const handleSubmit = useCallback(() => {
+    setLoading(true);
+    if (product) {
+      onWithdrawal({
+        productId: product.id,
+      }).then(() => {
+        onGetWallet();
+        onShowNotification({
+          type: "success",
+          message: "Produto resgatado com sucesso!",
+        });
+        handleClose();
       });
-      handleClose();
     }
-  }, [transaction.requestStatus, handleClose, onGetWallet, onShowNotification]);
+  }, [onWithdrawal, onShowNotification, onGetWallet, handleClose, product]);
 
   return (
     <MUIModal
