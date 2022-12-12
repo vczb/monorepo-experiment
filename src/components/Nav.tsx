@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Logo } from "../icons/Logo";
-import Button from "./Button";
+import { Button } from "./Button";
 
 const Nav = () => {
   return (
@@ -14,7 +14,7 @@ const Nav = () => {
           >
             <Logo />
           </Link>
-          <Link href="#contact-form">
+          <Link href="#contato">
             <i className="fas fa-sign-in-alt"></i>
             <Button>CONTATO</Button>
           </Link>

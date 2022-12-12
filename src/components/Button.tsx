@@ -7,7 +7,7 @@ type ButtonProps = {
   children: ReactNode;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
-const Button = ({
+export const Button = ({
   variant = "primary",
   size = "medium",
   children,
@@ -23,5 +23,3 @@ const Button = ({
     </button>
   );
 };
-
-export default Button;
