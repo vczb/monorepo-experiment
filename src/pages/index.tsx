@@ -3,6 +3,7 @@ import Script from "next/script";
 import Nav from "../components/Nav";
 import Home from "../components/Home";
 import { Footer } from "../components/Footer";
+import { HeadGTM } from "../components/TagManager";
 
 export default function Index() {
   return (
@@ -21,6 +22,7 @@ export default function Index() {
         <link rel="icon" href="/favicon.ico" />
         <meta name="theme-color" content="#fff" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <HeadGTM />
       </Head>
       <Nav />
       <Home />

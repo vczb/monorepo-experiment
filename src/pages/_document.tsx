@@ -1,5 +1,6 @@
 import { Html, Head, Main, NextScript } from "next/document";
 import { Analytics } from "../components/Analytics";
+import { BodyGTM } from "../components/TagManager";
 
 export default function Document() {
   return (
@@ -8,6 +9,7 @@ export default function Document() {
       <body>
         <Main />
         <Analytics />
+        <BodyGTM />
         <NextScript />
       </body>
     </Html>
