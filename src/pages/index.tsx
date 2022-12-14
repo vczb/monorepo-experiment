@@ -17,11 +17,17 @@ export default function Index() {
         <title>Gamou - Tecnologia para conversão e retenção de clientes</title>
         <meta
           name="description"
-          content="O sistema Gamou tem diversos recursos para que possa criar cupons de descontos, agilizar pedidos, inteligência artificial e muito mais para fazer seu negócio crescer."
+          content="Torne suas vendas mais simples e rápidas. Fidelize através de sistema de gamificação. Analise os dados em tempo real com auxilio de inteligência artificial"
         ></meta>
         <link rel="icon" href="/favicon.ico" />
+        <link
+          rel="canonical"
+          href={process.env.NEXT_PUBLIC_BASE_URL}
+          key="canonical"
+        />
         <meta name="theme-color" content="#fff" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+
         <HeadGTM />
       </Head>
       <Nav />
