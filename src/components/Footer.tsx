@@ -23,12 +23,12 @@ export const Footer = () => {
       <div className="container mx-auto px-4">
         <div className="flex flex-wrap">
           <div className="w-full md:w-6/12 px-4">
-            <h4 className="text-3xl font-semibold">
+            <h2 className="text-3xl font-semibold">
               Gamou, a escolha certa para seu negócio crescer
-            </h4>
-            <h5 className="text-lg mt-0 mb-2 text-blueGray-600">
+            </h2>
+            <h3 className="text-lg mt-0 mb-2 text-blueGray-600">
               Tecnologia para conversão e retenção de clientes
-            </h5>
+            </h3>
             {/* <div className="mt-6">
               <a href="/#" target="_blank">
                 <i className="fab fa-twitter  bg-white text-lightBlue-400 shadow-lg font-lg p-3 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 inline-block text-center"></i>

@@ -39,7 +39,7 @@ export const Tech = () => (
           <div className="text-blueGray-800 p-3 w-12 h-12 shadow-lg rounded-full bg-white inline-flex items-center justify-center">
             <i className="fas fa-medal text-xl"></i>
           </div>
-          <h6 className="text-xl mt-5 font-semibold text-white">Privacidade</h6>
+          <h3 className="text-xl mt-5 font-semibold text-white">Privacidade</h3>
           <p className="mt-2 mb-4 text-blueGray-400">
             Sua privacidade é respeitada de acordo com a lei geral de proteção
             de dados (LGPD)
@@ -49,7 +49,7 @@ export const Tech = () => (
           <div className="text-blueGray-800 p-3 w-12 h-12 shadow-lg rounded-full bg-white inline-flex items-center justify-center">
             <i className="fas fa-shield-alt"></i>
           </div>
-          <h5 className="text-xl mt-5 font-semibold text-white">Segurança</h5>
+          <h3 className="text-xl mt-5 font-semibold text-white">Segurança</h3>
           <p className="mt-2 mb-4 text-blueGray-400">
             O banco de dados é criptografado, garantindo a segurança das
             informações.
@@ -59,7 +59,7 @@ export const Tech = () => (
           <div className="text-blueGray-800 p-3 w-12 h-12 shadow-lg rounded-full bg-white inline-flex items-center justify-center">
             <i className="fas fa-lightbulb text-xl"></i>
           </div>
-          <h5 className="text-xl mt-5 font-semibold text-white">Nuvem</h5>
+          <h3 className="text-xl mt-5 font-semibold text-white">Nuvem</h3>
           <p className="mt-2 mb-4 text-blueGray-400">
             Poderá trabalhar da onde quiser sem problemas. Todas as informações
             são gravadas nos servidores.

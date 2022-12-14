@@ -44,7 +44,7 @@ export const Form = ({ ...props }: FormProps) => {
       <div className="w-full lg:w-6/12 px-4">
         <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200">
           <div className="flex-auto p-5 lg:p-10">
-            <h4 className="text-2xl font-semibold">Fale conosco</h4>
+            <b className="text-2xl font-semibold">Fale conosco</b>
             <p className="leading-relaxed mt-1 mb-4 text-blueGray-500">
               Vamos conversar sobre o seu negócio e como podemos te ajudar a
               crescer

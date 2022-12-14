@@ -17,7 +17,7 @@ const Home = () => {
                     {/* <i className="fas fa-award"></i> */}
                     <i className="fa-solid fa-person-rays"></i>
                   </div>
-                  <h6 className="text-xl font-semibold">Conversão</h6>
+                  <h2 className="text-xl font-semibold">Conversão</h2>
                   <p className="mt-2 mb-4 text-blueGray-500">
                     Atraia novos clientes com um sistema simples e fácil de usar
                     para aumentar suas vendas.
@@ -31,7 +31,7 @@ const Home = () => {
                   <div className="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-lightBlue-400">
                     <i className="fas fa-retweet"></i>
                   </div>
-                  <h6 className="text-xl font-semibold">Fidelização</h6>
+                  <h2 className="text-xl font-semibold">Fidelização</h2>
                   <p className="mt-2 mb-4 text-blueGray-500">
                     Ofereça uma boa experiência de compra, conheça o perfil de
                     seus clientes. Aplique campanhas personalizadas para gerar
@@ -46,9 +46,9 @@ const Home = () => {
                   <div className="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-emerald-400">
                     <i className="fas fa-fingerprint"></i>
                   </div>
-                  <h6 className="text-xl font-semibold">
+                  <h2 className="text-xl font-semibold">
                     Inteligência artificial
-                  </h6>
+                  </h2>
                   <p className="mt-2 mb-4 text-blueGray-500">
                     Dados em tempo real atualizados por inteligência artificial
                     te ajudam a criar estratégias para seu negócio.
@@ -62,9 +62,9 @@ const Home = () => {
               <div className="text-blueGray-500 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-blueGray-50">
                 <i className="fas fa-user-friends text-xl"></i>
               </div>
-              <h3 className="text-3xl mb-2 font-semibold leading-normal">
+              <h2 className="text-3xl mb-2 font-semibold leading-normal">
                 Conheça sua base de clientes
-              </h3>
+              </h2>
               <p className="text-lg font-light leading-relaxed mt-4 mb-4 text-blueGray-600">
                 Com o Gamou conseguirá se comunicar com os seus clientes de
                 forma direta e gerando muito relacionamento com os seus
@@ -100,9 +100,9 @@ const Home = () => {
                       className="text-pink-600 fill-current"
                     ></polygon>
                   </svg>
-                  <h4 className="text-xl font-bold text-white">
+                  <h2 className="text-xl font-bold text-white">
                     Acesse os dados dados em tempo real
-                  </h4>
+                  </h2>
                   <p className="text-md font-light mt-2 text-white">
                     Acesse a qualquer hora do dia gráficos e relatórios
                     integrados com ferramentas Google. Tudo atualizado em tempo
@@ -150,9 +150,9 @@ const Home = () => {
                 <div className="text-pink-600 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-pink-300">
                   <i className="fas fa-rocket text-xl"></i>
                 </div>
-                <h3 className="text-3xl font-semibold">
+                <h2 className="text-3xl font-semibold">
                   Cadastro de produtos ou serviços
-                </h3>
+                </h2>
                 <p className="mt-4 text-lg leading-relaxed text-blueGray-500">
                   No Gamou poderá cadastrar seus produtos e criar um catálogo ou
                   cardápio de produtos.
@@ -166,9 +166,9 @@ const Home = () => {
                         </span>
                       </div>
                       <div>
-                        <h4 className="text-blueGray-500">
+                        <h3 className="text-blueGray-500">
                           Realizar pedido via sistema
-                        </h4>
+                        </h3>
                       </div>
                     </div>
                   </li>
@@ -180,10 +180,10 @@ const Home = () => {
                         </span>
                       </div>
                       <div>
-                        <h4 className="text-blueGray-500">
+                        <h3 className="text-blueGray-500">
                           Aplicar pontuação de fidelidade ao realizar o
                           pagamento
-                        </h4>
+                        </h3>
                       </div>
                     </div>
                   </li>
@@ -195,9 +195,9 @@ const Home = () => {
                         </span>
                       </div>
                       <div>
-                        <h4 className="text-blueGray-500">
+                        <h3 className="text-blueGray-500">
                           Aplicar descontos e cupons
-                        </h4>
+                        </h3>
                       </div>
                     </div>
                   </li>
