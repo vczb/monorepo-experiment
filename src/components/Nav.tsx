@@ -14,10 +14,10 @@ const Nav = () => {
           >
             <Logo />
           </Link>
-          <Link href="#contato">
+          <a href="#contato">
             <i className="fas fa-sign-in-alt"></i>
             <Button>CONTATO</Button>
-          </Link>
+          </a>
         </div>
         <div
           className="flex-grow items-center bg-white lg:ml-auto lg:mr-4 lg:max-w-xs"
