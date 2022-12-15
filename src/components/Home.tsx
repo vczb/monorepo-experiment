@@ -81,8 +81,8 @@ const Home = () => {
             <div className="w-full md:w-4/12 px-4 mr-auto ml-auto">
               <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg bg-pink-600 mt-3">
                 <Image
-                  alt="Fácil de usar e sem complicações"
-                  src="/img/real_time.jpg"
+                  alt="Gráficos de conversão de clientes"
+                  src="/img/real_time.webp"
                   className="w-full align-middle rounded-t-lg "
                   width={600}
                   height={200}
@@ -138,9 +138,9 @@ const Home = () => {
           <div className="items-center flex flex-wrap">
             <div className="w-full md:w-4/12 ml-auto mr-auto px-4">
               <Image
-                alt="Cadastro de produtos ou serviços"
+                alt="Plataforma para cadastro de produtos e serviços"
                 className="max-w-full rounded-lg shadow-lg mb-5"
-                src="/img/complete.jpg"
+                src="/img/complete.webp"
                 width={600}
                 height={200}
               />

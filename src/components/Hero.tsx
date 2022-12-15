@@ -6,7 +6,7 @@ export const Hero = () => (
     <div
       className="absolute top-0 w-full h-full bg-center bg-cover"
       style={{
-        backgroundImage: "url(/img/banner.jpg)",
+        backgroundImage: "url(/img/banner.webp)",
         filter: "brightness(0.5)",
       }}
     >
