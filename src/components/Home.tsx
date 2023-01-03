@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Form } from "./Form";
 import { Hero } from "./Hero";
 import { Tech } from "./Tech";
+import { Pricing } from "./Pricing";
 
 const Home = () => {
   return (
@@ -114,7 +115,7 @@ const Home = () => {
           </div>
         </div>
       </section>
-      <section className="relative py-20 pb-80">
+      <section className="relative py-20">
         <div
           className="bottom-auto top-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden -mt-20"
           style={{ height: "80px" }}
@@ -208,7 +209,7 @@ const Home = () => {
         </div>
       </section>
       {/* <WhatWeDo /> */}
-      {/* <Pricing /> */}
+      <Pricing />
 
       <Tech />
       <section className=" block py-24 lg:pt-0 bg-blueGray-800">
