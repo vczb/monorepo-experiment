@@ -3,7 +3,7 @@ import Script from "next/script";
 import Nav from "../components/Nav";
 import Home from "../components/Home";
 import { Footer } from "../components/Footer";
-import { HeadGTM } from "../components/TagManager";
+import { HeadGTM } from "../components/Google";
 
 export default function Index() {
   return (
