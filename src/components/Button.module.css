@@ -1,0 +1,35 @@
+.base {
+  @apply cursor-pointer font-bold uppercase rounded shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150;
+}
+
+.small {
+  @apply text-xs px-4 py-2;
+}
+
+.medium {
+  @apply text-sm px-6 py-3;
+}
+
+.primary {
+  @apply bg-white text-blueGray-700 base;
+}
+
+.secondary {
+  @apply bg-lightBlue-400 text-white base;
+}
+
+.success {
+  @apply bg-emerald-400 text-white base;
+}
+
+.alert {
+  @apply bg-red-400 text-white base;
+}
+
+.info {
+  @apply bg-pink-500 text-white base;
+}
+
+.dark {
+  @apply bg-blueGray-800 text-white base;
+}
