@@ -15,36 +15,30 @@ Integrated with [Gamou](https://github.com/vczb/gamou) App.
 
 ## Get started
 
-1. First clone the repository
+1. Install dependencies
 
 ```bash
-  git clone git@github.com:vczb/gamou-loyalitty.git
+  npm install
 ```
 
-2. Install dependencies
+2. Add the environment variables
 
 ```bash
-  yarn install
-```
-
-4. Add the environment variables
-
-```bash
-REACT_APP_BASE_API_URL=https://stg1-gamou.herokuapp.com/api/v1/
+REACT_APP_BASE_API_URL=https://www.api.gamou.app/api/v1/
 REACT_APP_STORAGE_ROOT_KEY=gamou-loyalitty
 ```
 
-4. Run the application
+3. Run the application
 
 ```bash
-  yarn start
+  npm run start
 ```
 
-5. Open the browser and go to `http://localhost:3000`
+4. Open the browser and go to `http://localhost:3002`
 
 ## Available commands
 
-- `start`: run the application in development mode `localhost:3000`
+- `start`: run the application in development mode `localhost:3002`
 - `check`: check formatting on all `src` directory
 - `format`: formats all `src` directory
 
