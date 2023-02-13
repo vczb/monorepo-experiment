@@ -30,12 +30,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "prepare": "husky install",
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,md}\"",
     "check": "prettier -c \"src/**/*.{ts,tsx,js,jsx,json,md}\""
-  },
-  "lint-staged": {
-    "**/*": "prettier --write --ignore-unknown"
   },
   "eslintConfig": {
     "extends": [
@@ -59,8 +55,6 @@
     "@types/react-input-mask": "^3.0.1",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "husky": "^7.0.4",
-    "lint-staged": "^12.3.5",
     "prettier": "2.5.1"
   }
 }
