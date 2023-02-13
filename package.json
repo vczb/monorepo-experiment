@@ -1,0 +1,12 @@
+{
+  "name": "gamou",
+  "packageManager": "yarn@3.2.3",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev:lan": "yarn workspace @gamou/landing dev",
+    "dev:loy": "yarn workspace @gamou/loyalitty start"
+  }
+}
