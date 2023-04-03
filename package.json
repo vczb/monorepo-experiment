@@ -7,6 +7,7 @@
   ],
   "scripts": {
     "dev:lan": "yarn workspace @gamou/landing dev",
-    "dev:loy": "yarn workspace @gamou/loyalitty start"
+    "dev:loy": "yarn workspace @gamou/loyalitty start",
+    "dev:das": "yarn workspace @gamou/dashboard dev"
   }
 }
