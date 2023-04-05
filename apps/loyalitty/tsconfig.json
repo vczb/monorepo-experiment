@@ -1,5 +1,5 @@
 {
-  "extends": "../../tsconfig.base.json",
+  "extends": "@gamou/typescript/tsconfig.json",
   "compilerOptions": {
     "baseUrl": "src"
   },

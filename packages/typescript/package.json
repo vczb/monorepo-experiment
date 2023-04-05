@@ -1,0 +1,7 @@
+{
+  "name": "@gamou/typescript",
+  "version": "1.0.0",
+  "dependencies": {
+    "typescript": "5.0.3"
+  }
+}

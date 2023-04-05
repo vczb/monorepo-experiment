@@ -21,6 +21,8 @@ const MaskField = ({ maskValue, mask, ...props }: MaskFieldProps) => {
 
   return (
     <InputMask mask={maskField} defaultValue={maskValue}>
+      {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+      {/* @ts-ignore */}
       {() => <TextField fullWidth {...props} />}
     </InputMask>
   );

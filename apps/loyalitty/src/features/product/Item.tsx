@@ -12,7 +12,7 @@ type ItemProps = {
 
 const Item = ({ item, disabled = false, handleItemClick }: ItemProps) => {
   const handleClick = useCallback(
-    (item) => {
+    (item: Product) => {
       if (handleItemClick) {
         handleItemClick(item);
       }

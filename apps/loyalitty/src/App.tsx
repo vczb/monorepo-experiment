@@ -29,6 +29,8 @@ const theme = createTheme({
 function App() {
   return (
     <Provider store={store}>
+      {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+      {/* @ts-ignore */}
       <PersistGate loading={null} persistor={persistor}>
         {globalStyles}
         <ThemeProvider theme={theme}>
