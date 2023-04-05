@@ -1,0 +1,9 @@
+{
+  "name": "@gamou/tailwind",
+  "version": "1.0.0",
+  "devDependencies": {
+    "autoprefixer": "latest",
+    "postcss": "latest",
+    "tailwindcss": "latest"
+  }
+}

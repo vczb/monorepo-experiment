@@ -3,7 +3,8 @@
   "packageManager": "yarn@3.2.3",
   "private": true,
   "workspaces": [
-    "apps/*"
+    "apps/*",
+    "packages/*"
   ],
   "scripts": {
     "dev:lan": "yarn workspace @gamou/landing dev",
