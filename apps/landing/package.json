@@ -9,14 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@gamou/react": "workspace:^",
-    "@gamou/typescript": "workspace:^",
+    "@gamou/react": "*",
+    "@gamou/typescript": "*",
     "eslint": "8.28.0",
     "eslint-config-next": "13.0.5",
     "next": "13.0.5",
     "typescript": "4.9.3"
   },
   "devDependencies": {
-    "@gamou/tailwind": "workspace:^"
+    "@gamou/tailwind": "*"
   }
 }
