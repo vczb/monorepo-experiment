@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .pretty-scrollbar {
+    overflow: auto;
+    scrollbar-color: currentColor transparent;
+  }
+  .pretty-scrollbar::-webkit-scrollbar {
+    height: 0.2rem;
+  }
+  .pretty-scrollbar::-webkit-scrollbar-thumb {
+    border-radius: 0.2rem;
+    background-clip: padding-box;
+    background-color: currentColor;
+  }
+  .pretty-scrollbar::-webkit-scrollbar-button {
+    width: 0;
+    height: 0;
+    display: none;
+  }
+  .pretty-scrollbar::-webkit-scrollbar-corner {
+    background-color: transparent;
+  }
+}
