@@ -1,0 +1,18 @@
+# Ignore:
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+!.yarn/cache
+node_modules
+yarn.lock
+.yarn
+.yarn/*
+coverage
+.next/
+out/
+build
+dist
+.env*
